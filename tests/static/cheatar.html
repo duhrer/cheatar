@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>"Cheatar" Demo</title>
+
+        <!-- Infusion dependencies -->
+        <script src="../../node_modules/infusion/src/lib/jquery/core/js/jquery.js"></script>
+        <script src="../../node_modules/infusion/src/framework/core/js/Fluid.js"></script>
+        <script src="../../node_modules/infusion/src/framework/core/js/FluidIoC.js"></script>
+        <script src="../../node_modules/infusion/src/framework/core/js/DataBinding.js"></script>
+        <script src="../../node_modules/infusion/src/framework/core/js/ModelTransformation.js"></script>
+        <script src="../../node_modules/infusion/src/framework/core/js/ModelTransformationTransforms.js"></script>
+        <script src="../../node_modules/infusion/src/framework/core/js/FluidDebugging.js"></script>
+        <script src="../../node_modules/infusion/src/framework/enhancement/js/ContextAwareness.js"></script>
+        <script src="../../node_modules/infusion/src/framework/core/js/FluidDocument.js"></script>
+        <script src="../../node_modules/infusion/src/framework/core/js/FluidDOMUtilities.js"></script>
+        <script src="../../node_modules/infusion/src/framework/core/js/FluidView.js"></script>
+
+        <!-- Flocking dependencies -->
+        <script src="../../node_modules/flocking/dist/flocking-all.js"></script>
+        <script src="../../node_modules/flocking/src/ui/selectbox/js/selectbox.js"></script>
+
+        <script src="../../node_modules/flocking/src/ui/midi/midi-port-selector/js/midi-port-selector.js"></script>
+        <script src="../../node_modules/flocking/src/ui/midi/midi-connector/js/midi-connector.js"></script>
+
+        <script src="../../src/js/cheatar.js"></script>
+        <script src="../../src/js/harness.js"></script>
+    </head>
+
+    <body>
+        <div class="synth-container">
+            <div class="row">
+                <h1>"Cheatar" Demo</h1>
+                <p class="instructions">A basic harness for the cheatar.</p>
+            </div>
+
+            <div class="row">
+                <div id="input-selector"></div>
+            </div>
+        </div>
+
+        <script>
+            var cheatarComponent = cheatar.harness(".synth-container");
+        </script>
+    </body>
+</html>
