@@ -206,7 +206,7 @@ fluid.defaults("cheatar", {
         "F#major": {
             "F#": "major",
             "G#": "minor",
-            "A#": "minor",
+            "A#": "major",
             "B":  "major",
             "C#": "major",
             "D#": "minor",
@@ -383,20 +383,29 @@ fluid.defaults("cheatar", {
     },
     chords: {
         // Thanks to http://edmprod.com/different-chord-types/ for an excellent explanation of various chords.
-        // We create chords where the root note is in the "middle", so that the average pitch is closer to hitting the note itself.
-        // TODO: Sanity check all chords against examples, some sound a bit off.
-        // TODO: Try non-transposed version of the rest of the chords and see if they sound nicer together.
-        major:  [-8, 0, 7],     // 0, 4, 7 transposed
-        minor:  [-9, 0, 7],     // 0, 3, 7 transposed
-        major7: [-8, 0, 7, 11], // 0, 4, 7, 11 transposed (somewhat)
-        minor7: [-9, 0, 7, 10], // 0, 3, 7, 10 transposed (somewhat)
-        dom7:   [-8, 0, 7, 10], // 0, 4, 7, 10 transposed (somewhat)
-        maj6:   [-8, 0, 7, 9],  // 0, 4, 7, 9 transposed (somewhat)
-        min6:   [-9, 0, 7, 9],  // 0, 3, 7, 9 transposed (somewhat)
-        sus4:   [-7, 0, 7],     // 0, 5, 7 transposed
-        ninth:  [-8, 0, 7, 13], // 0, 4, 7, 13 transposed (somewhat)
-        dim:    [-9, 0, 6],     // 0, 3, 6 transposed
-        aug:    [-8, 0, 8]      // 0, 4, 8 transposed
+        major:  [0, 4, 7],
+        minor:  [0, 3, 7],
+        major7: [0, 4, 7, 11],
+        minor7: [0, 3, 7, 10],
+        dom7:   [0, 4, 7, 10],
+        maj6:   [0, 4, 7, 9],
+        min6:   [0, 3, 7, 9],
+        sus4:   [0, 5, 7],
+        ninth:  [0, 4, 7, 13],
+        dim:    [0, 3, 6],
+        aug:    [0, 4, 8]
+        // Alternate chords where the root note is in the "middle", so that the average pitch is closer to hitting the note itself.
+        // major:  [-8, 0, 7],     // 0, 4, 7 transposed
+        // minor:  [-9, 0, 7],     // 0, 3, 7 transposed
+        // major7: [-8, 0, 7, 11], // 0, 4, 7, 11 transposed (somewhat)
+        // minor7: [-9, 0, 7, 10], // 0, 3, 7, 10 transposed (somewhat)
+        // dom7:   [-8, 0, 7, 10], // 0, 4, 7, 10 transposed (somewhat)
+        // maj6:   [-8, 0, 7, 9],  // 0, 4, 7, 9 transposed (somewhat)
+        // min6:   [-9, 0, 7, 9],  // 0, 3, 7, 9 transposed (somewhat)
+        // sus4:   [-7, 0, 7],     // 0, 5, 7 transposed
+        // ninth:  [-8, 0, 7, 13], // 0, 4, 7, 13 transposed (somewhat)
+        // dim:    [-9, 0, 6],     // 0, 3, 6 transposed
+        // aug:    [-8, 0, 8]      // 0, 4, 8 transposed
     },
     strumDuration: 150,
     pauseDuration: 300,
