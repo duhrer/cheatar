@@ -83,7 +83,7 @@ cheatar.playChord  = function (that, payload) {
 
         if (that.activeTimeouts[index]) {
             clearTimeout(that.activeTimeouts[index]);
-            delete that.activeTimeouts[index];
+            that.activeTimeouts[index] = undefined;
         }
 
         that.activeTimeouts[index] = setTimeout(function () {
@@ -121,10 +121,9 @@ cheatar.sendNoteOff = function (that) {
         }
     });
 
-    var chordPattern = that.options.chords[that.model.chordType];
-    fluid.each(chordPattern, function (offset, index) {
-        that.strings.noteOff(index);
-    });
+    for (var a = 0; a < that.strings.options.maxVoices; a++) {
+        that.strings.noteOff(a);
+    }
 
     that.applier.change("playingChord", "-");
 };
@@ -271,7 +270,7 @@ fluid.defaults("cheatar", {
         "A#minor": "{that}.options.chordKeyModifiers.C#major",
         "Bminor":  "{that}.options.chordKeyModifiers.Dmajor",
 
-        // Thanks to https://www.basicmusictheory.com/c-harmonic-minor-triad-chords for breaking down harmonic minor chords in depth.
+        // Thanks to https://www.basicmusictheory.com/c-harmonic-minor-triad-chords for breaking down harmonic minor, melodic minor and other chords in depth.
         "CminorHarmonic": {
             "C":  "minor",
             "D":  "dim",
@@ -379,21 +378,238 @@ fluid.defaults("cheatar", {
             "F#": "major",
             "G":  "major",
             "A#": "dim"
+        },
+        "CmelodicHarmonic": {
+            "C":  "minor",
+            "D":  "minor",
+            "D#": "aug",
+            "F":  "major",
+            "G":  "major",
+            "A":  "dim",
+            "B":  "dim"
+        },
+        "C#melodicHarmonic": {
+            "C#":  "minor",
+            "D#":  "minor",
+            "E":   "aug",
+            "F#":  "major",
+            "G#":  "major",
+            "A#":  "dim",
+            "C":   "dim"
+        },
+        "DmelodicHarmonic": {
+            "D":  "minor",
+            "E":  "minor",
+            "F":  "aug",
+            "G":  "major",
+            "A":  "major",
+            "B":  "dim",
+            "C#": "dim"
+        },
+        "D#melodicHarmonic": {
+            "D#": "minor",
+            "F":  "minor",
+            "F#": "aug",
+            "G#": "major",
+            "A#": "major",
+            "C":  "dim",
+            "D":  "dim"
+        },
+        "EmelodicHarmonic": {
+            "E":  "minor",
+            "F#": "minor",
+            "G":  "aug",
+            "A":  "major",
+            "B":  "major",
+            "C#":  "dim",
+            "D#": "dim"
+        },
+        "FmelodicHarmonic": {
+            "F":  "minor",
+            "G":  "minor",
+            "G#": "aug",
+            "A#": "major",
+            "C":  "major",
+            "D":  "dim",
+            "E":  "dim"
+        },
+        "F#melodicHarmonic": {
+            "F#": "minor",
+            "G#": "minor",
+            "A":  "aug",
+            "B":  "major",
+            "C#": "major",
+            "D#": "dim",
+            "F":  "dim"
+        },
+        "GmelodicHarmonic": {
+            "G":  "minor",
+            "A":  "minor",
+            "A#": "aug",
+            "C":  "major",
+            "D":  "major",
+            "E":  "dim",
+            "F#": "dim"
+        },
+        "G#melodicHarmonic": {
+            "G#": "minor",
+            "A#": "minor",
+            "B":  "aug",
+            "C#": "major",
+            "D#": "major",
+            "F":  "dim",
+            "G":  "dim"
+        },
+        "AmelodicHarmonic": {
+            "A":  "minor",
+            "B":  "minor",
+            "C":  "aug",
+            "D":  "major",
+            "E":  "major",
+            "F#": "dim",
+            "G#": "dim"
+        },
+        "A#melodicHarmonic": {
+            "A#": "minor",
+            "C":  "minor",
+            "C#": "aug",
+            "D#": "major",
+            "F":  "major",
+            "G":  "dim",
+            "A":  "dim"
+        },
+        "B#melodicHarmonic": {
+            "B":  "minor",
+            "C#": "minor",
+            "D":  "aug",
+            "E":  "major",
+            "F#": "major",
+            "G#": "dim",
+            "A#": "dim"
+        },
+        "Cmajor7th": {
+            "C":  "major7",
+            "D":  "minor7",
+            "E":  "minor7",
+            "F":  "major7",
+            "G":  "dom7",
+            "A":  "minor7",
+            "B":  "halfDim7"
+        },
+        "C#major7th": {
+            "C#":  "major7",
+            "D#":  "minor7",
+            "F":   "minor7",
+            "F#":  "major7",
+            "G#":  "dom7",
+            "A#":  "minor7",
+            "C":   "halfDim7"
+        },
+        "Dmajor7th": {
+            "D":  "major7",
+            "E":  "minor7",
+            "F#": "minor7",
+            "G":  "major7",
+            "A":  "dom7",
+            "B":  "minor7",
+            "C#": "halfDim7"
+        },
+        "D#major7th": {
+            "D#": "major7",
+            "F":  "minor7",
+            "G":  "minor7",
+            "G#": "major7",
+            "A#": "dom7",
+            "C":  "minor7",
+            "D":  "halfDim7"
+        },
+        "Emajor7th": {
+            "E":  "major7",
+            "F#": "minor7",
+            "G#": "minor7",
+            "A":  "major7",
+            "B":  "dom7",
+            "C#": "minor7",
+            "D#": "halfDim7"
+        },
+        "Fmajor7th": {
+            "F":  "major7",
+            "G":  "minor7",
+            "A":  "minor7",
+            "A#": "major7",
+            "C":  "dom7",
+            "D":  "minor7",
+            "E":  "halfDim7"
+        },
+        "F#major7th": {
+            "F#": "major7",
+            "G#": "minor7",
+            "A#": "minor7",
+            "B":  "major7",
+            "C#": "dom7",
+            "D#": "minor7",
+            "F":  "halfDim7"
+        },
+        "Gmajor7th": {
+            "G":  "major7",
+            "A":  "minor7",
+            "B":  "minor7",
+            "C":  "major7",
+            "D":  "dom7",
+            "E":  "minor7",
+            "F#": "halfDim7"
+        },
+        "G#major7th": {
+            "G#": "major7",
+            "A#": "minor7",
+            "C":  "minor7",
+            "C#": "major7",
+            "D#": "dom7",
+            "F":  "minor7",
+            "G":  "halfDim7"
+        },
+        "Amajor7th": {
+            "A":  "major7",
+            "B":  "minor7",
+            "C#": "minor7",
+            "D":  "major7",
+            "E":  "dom7",
+            "F#": "minor7",
+            "G#": "halfDim7"
+        },
+        "A#major7th": {
+            "A#": "major7",
+            "C":  "minor7",
+            "D":  "minor7",
+            "D#": "major7",
+            "F":  "dom7",
+            "G":  "minor7",
+            "A":  "halfDim7"
+        },
+        "B#major7th": {
+            "B":  "major7",
+            "C#": "minor7",
+            "D#": "minor7",
+            "E":  "major7",
+            "F#": "dom7",
+            "G#": "minor7",
+            "A#": "halfDim7"
         }
     },
     chords: {
         // Thanks to http://edmprod.com/different-chord-types/ for an excellent explanation of various chords.
-        major:  [0, 4, 7],
-        minor:  [0, 3, 7],
-        major7: [0, 4, 7, 11],
-        minor7: [0, 3, 7, 10],
-        dom7:   [0, 4, 7, 10],
-        maj6:   [0, 4, 7, 9],
-        min6:   [0, 3, 7, 9],
-        sus4:   [0, 5, 7],
-        ninth:  [0, 4, 7, 13],
-        dim:    [0, 3, 6],
-        aug:    [0, 4, 8]
+        major:    [0, 4, 7],
+        minor:    [0, 3, 7],
+        major7:   [0, 4, 7, 11],
+        minor7:   [0, 3, 7, 10],
+        dom7:     [0, 4, 7, 10],
+        maj6:     [0, 4, 7, 9],
+        min6:     [0, 3, 7, 9],
+        sus4:     [0, 5, 7],
+        ninth:    [0, 4, 7, 13],
+        dim:      [0, 3, 6],
+        aug:      [0, 4, 8],
+        halfDim7: [0, 3, 6, 10]
         // Alternate chords where the root note is in the "middle", so that the average pitch is closer to hitting the note itself.
         // major:  [-8, 0, 7],     // 0, 4, 7 transposed
         // minor:  [-9, 0, 7],     // 0, 3, 7 transposed
