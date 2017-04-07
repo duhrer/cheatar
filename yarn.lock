@@ -610,6 +610,12 @@ globby@^5.0.0:
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
 
+gpii-binder@1.0.0-dev.20170127T144054Z.54a5ef2:
+  version "1.0.0-dev.20170127T144054Z.54a5ef2"
+  resolved "https://registry.yarnpkg.com/gpii-binder/-/gpii-binder-1.0.0-dev.20170127T144054Z.54a5ef2.tgz#a56985dcfdbf0a52970a9b42fe3f39d375a50d63"
+  dependencies:
+    infusion "3.0.0-dev.20170127T130413Z.103de6e"
+
 graceful-fs@^4.1.2:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
@@ -736,6 +742,12 @@ inflight@^1.0.4:
 infusion@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/infusion/-/infusion-2.0.0.tgz#19e49594e893837daac20774c8d261b85bd0db4c"
+  dependencies:
+    fluid-resolve "1.2.0"
+
+infusion@3.0.0-dev.20170127T130413Z.103de6e:
+  version "3.0.0-dev.20170127T130413Z.103de6e"
+  resolved "https://registry.yarnpkg.com/infusion/-/infusion-3.0.0-dev.20170127T130413Z.103de6e.tgz#59d5163cd6c55d4c5b3c34af54b74fdb331b1a1d"
   dependencies:
     fluid-resolve "1.2.0"
 

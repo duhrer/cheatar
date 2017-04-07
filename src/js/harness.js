@@ -12,12 +12,9 @@ var environment = flock.init(); // eslint-disable-line no-unused-vars
 
 var cheatar = fluid.registerNamespace("cheatar");
 
-fluid.registerNamespace("cheatar.harness");
+// TODO: Reintroduce "pitchbend" support
 
-cheatar.harness.bendPitch = function (synth, value) {
-    var scaledValue = (value / 128) - 64;
-    synth.set("pitchbend.value", scaledValue );
-};
+fluid.registerNamespace("cheatar.harness");
 
 fluid.defaults("cheatar.harness", {
     gradeNames: ["fluid.viewComponent"],
@@ -56,17 +53,43 @@ fluid.defaults("cheatar.harness", {
                     "noteOn.passToSynth": {
                         func: "{synth}.noteOn",
                         args: [
-                            "{arguments}.0.note",
                             {
-                                "freq.note": "{arguments}.0.note",
+                                // "freq.note": "{arguments}.0.note",
+                                "note.value": "{arguments}.0.note",
                                 "amp.velocity": "{arguments}.0.velocity"
                             }
                         ]
                     },
-                    "noteOff.passToSynth": "{synth}.noteOff({arguments}.0.note)",
-                    "pitchbend.passToSynth": {
-                        funcName: "cheatar.harness.bendPitch",
-                        args:     ["{synth}", "{arguments}.0.value"]
+                    "noteOff.passToSynth": "{synth}.noteOff()"
+                }
+            }
+        },
+        chordControls: {
+            type: "fluid.viewComponent",
+            container: ".chord-controls",
+            options: {
+                model: {
+                    chordKey:     "{synth}.model.chordKey",
+                    chordScale:   "{synth}.model.chordScale",
+                    chordType:    "{synth}.model.chordType",
+                    playingChord: "{synth}.model.playingChord"
+                },
+                selectors: {
+                    "chordKey":     ".chord-key",
+                    "chordScale":   ".chord-scale",
+                    "chordType":    ".chord-manual-type",
+                    "playingChord": ".chord-playing"
+                },
+                bindings: {
+                    "chordKey":     "chordKey",
+                    "chordScale":   "chordScale",
+                    "chordType":    "chordType",
+                    "playingChord": "playingChord"
+                },
+                listeners: {
+                    "onCreate.applyBindings": {
+                        "funcName": "gpii.binder.applyBinding",
+                        "args":     "{that}"
                     }
                 }
             }
