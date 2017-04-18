@@ -88,6 +88,9 @@ cheatar.playChord  = function (that, payload) {
 
         that.activeTimeouts[index] = setTimeout(function () {
             that.strings.noteOn(index, modifiedPayload);
+            that.activeTimeouts[index] = setTimeout(function () {
+                cheatar.sendSingleNoteOff(that, index);
+            }, that.options.noteMs);
         }, delayMs);
     });
 };
@@ -107,6 +110,14 @@ cheatar.clearInterval = function (that) {
         clearInterval(that.activeInterval);
         that.activeInterval = undefined;
     }
+};
+
+cheatar.sendSingleNoteOff = function (that, index) {
+    var singleNoteTimeout = that.activeTimeouts[index];
+    if (singleNoteTimeout) {
+        clearTimeout(singleNoteTimeout);
+    }
+    that.strings.noteOff(index);
 };
 
 cheatar.sendNoteOff = function (that) {
@@ -133,14 +144,21 @@ cheatar.midiNoteToKey = function (midiNote) {
     return noteNames[midiNote % 12];
 };
 
+cheatar.updateKeyChords = function (that) {
+    var combinedChord = that.model.chordKey + that.model.chordScale;
+    that.applier.change("keyChords", that.options.chordKeyModifiers[combinedChord]);
+};
+
 fluid.defaults("cheatar", {
     gradeNames: ["flock.band", "fluid.modelComponent"],
     model: {
         chordKey:     "C",
         chordType:    "major",
+        keyChords:    "{that}.options.chordKeyModifiers.Cmajor",
         chordScale:   "major",
         playingChord: "-"
     },
+    noteMs: 200,
     members: {
         activeInterval: false,
         activeTimeouts: []
@@ -595,6 +613,7 @@ fluid.defaults("cheatar", {
             "G#": "minor7",
             "A#": "halfDim7"
         }
+        // TODO:  Add support for minor7, harmonicMinor7 and melodicMinor7
     },
     chords: {
         // Thanks to http://edmprod.com/different-chord-types/ for an excellent explanation of various chords.
@@ -636,8 +655,13 @@ fluid.defaults("cheatar", {
         }
     },
     modelListeners: {
+        chordKey: {
+            funcName:      "cheatar.updateKeyChords",
+            args:          ["{that}"],
+            excludeSource: "init"
+        },
         chordType: {
-            func: "{that}.noteOff",
+            func:          "{that}.noteOff",
             excludeSource: "init"
         }
     },

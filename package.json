@@ -15,8 +15,10 @@
   "homepage": "https://bitbucket.org/duhrer/cheatar#readme",
   "dependencies": {
     "flocking": "0.2.0-dev.20170206T221943Z.fb09a52",
+    "foundation-sites": "^6.3.1",
     "gpii-binder": "1.0.0-dev.20170127T144054Z.54a5ef2",
-    "infusion": "2.0.0"
+    "gpii-handlebars": "^1.0.0-dev.20170410T080131Z.aebe827",
+    "infusion": "3.0.0-dev.20170127T130413Z.103de6e"
   },
   "devDependencies": {
     "eslint": "3.14.1",

@@ -69,20 +69,14 @@ fluid.defaults("cheatar.harness", {
             container: ".chord-controls",
             options: {
                 model: {
-                    chordKey:     "{synth}.model.chordKey",
-                    chordScale:   "{synth}.model.chordScale",
                     chordType:    "{synth}.model.chordType",
                     playingChord: "{synth}.model.playingChord"
                 },
                 selectors: {
-                    "chordKey":     ".chord-key",
-                    "chordScale":   ".chord-scale",
                     "chordType":    ".chord-manual-type",
                     "playingChord": ".chord-playing"
                 },
                 bindings: {
-                    "chordKey":     "chordKey",
-                    "chordScale":   "chordScale",
                     "chordType":    "chordType",
                     "playingChord": "playingChord"
                 },
@@ -90,6 +84,35 @@ fluid.defaults("cheatar.harness", {
                     "onCreate.applyBindings": {
                         "funcName": "gpii.binder.applyBinding",
                         "args":     "{that}"
+                    }
+                }
+            }
+        },
+        keyChordDisplay: {
+            type: "cheatar.keyChordDisplay",
+            container: ".key-chord-display",
+            options: {
+                model: {
+                    keyChords: "{synth}.model.keyChords"
+                }
+            }
+        },
+        twoAxisControl: {
+            type: "cheatar.twoAxisControl",
+            container: ".auto-chord-twoAxisControl",
+            options: {
+                possibleValues: {
+                    x: ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"],
+                    y: ["major", "minor", "major7th", "melodicHarmonic", "minorHarmonic"]
+                },
+                model: {
+                    selectedIndex: {
+                        x: 0,
+                        y: 0
+                    },
+                    axisValue: {
+                        x: "{synth}.model.chordKey",
+                        y: "{synth}.model.chordScale"
                     }
                 }
             }

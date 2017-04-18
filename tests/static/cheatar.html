@@ -19,8 +19,35 @@
         <script src="../../node_modules/infusion/src/framework/core/js/FluidDOMUtilities.js"></script>
         <script src="../../node_modules/infusion/src/framework/core/js/FluidView.js"></script>
 
+        <!-- deps we used in gpii-handlebars -->
+        <script src="../../node_modules/infusion/src/lib/fastXmlPull/js/fastXmlPull.js"></script>
+        <script src="../../node_modules/infusion/src/framework/renderer/js/fluidParser.js"></script>
+        <script src="../../node_modules/infusion/src/framework/renderer/js/fluidRenderer.js"></script>
+        <script src="../../node_modules/infusion/src/framework/core/js/FluidRequests.js"></script>
+
+        <!-- Handlebars dependency -->
+        <script src="../../node_modules/handlebars/dist/handlebars.js"></script>
+
+        <!-- Pagedown dependencies -->
+        <script src="../../node_modules/pagedown/Markdown.Converter.js"></script>
+        <script src="../../node_modules/pagedown/Markdown.Sanitizer.js"></script>
+
+
+        <!-- gpii-handlebars dependencies -->
+        <script src="../../node_modules/gpii-handlebars/src/js/client/hasRequiredOptions.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/common/helper.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/common/md-common.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/client/md-client.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/common/jsonify.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/common/equals.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/client/renderer.js"></script>
+        <script src="../../node_modules/gpii-handlebars/src/js/client/templateAware.js"></script>
+
         <!-- Binder dependencies -->
         <script src="../../node_modules/gpii-binder/src/js/binder.js"></script>
+
+        <!-- UI components -->
+        <script src="../../src/js/twoAxisControl.js"></script>
 
         <!-- Flocking dependencies -->
         <script src="../../node_modules/flocking/dist/flocking-all.js"></script>
@@ -29,8 +56,11 @@
         <script src="../../node_modules/flocking/src/ui/midi/midi-port-selector/js/midi-port-selector.js"></script>
         <script src="../../node_modules/flocking/src/ui/midi/midi-connector/js/midi-connector.js"></script>
 
+        <script src="../../src/js/keyChordDisplay.js"></script>
         <script src="../../src/js/cheatar.js"></script>
         <script src="../../src/js/harness.js"></script>
+
+        <link rel="stylesheet" href="../../node_modules/foundation-sites/dist/css/foundation.css"/>
     </head>
 
     <body>
@@ -44,51 +74,16 @@
                 <div id="input-selector"></div>
             </div>
 
+            <div tabindex="1" style="height:180px; width:180px; padding-top: 50px; text-align:center;" class="row auto-chord-twoAxisControl">
+                This should be replaced...
+            </div>
+
+            <div class="row key-chord-display">
+                This should be replaced...
+            </div>
+
             <div class="chord-controls">
                 <div class="row">
-                    <!-- TODO: Only show this if "Manual Control" is selected. -->
-                    <div class="column">
-                        <select class="chord-manual-type">
-                            <option value="major" selected>major</option>
-                            <option value="minor">minor</option>
-                            <option value="major7">major7</option>
-                            <option value="minor7">minor7</option>
-                            <option value="dom7">dom7</option>
-                            <option value="maj6">maj6</option>
-                            <option value="min6">min6</option>
-                            <option value="sus4">sus4</option>
-                            <option value="ninth">ninth</option>
-                            <option value="dim">dim</option>
-                            <option value="aug">aug</option>
-                            <option value="halfDim7">halfDim7</option>
-                        </select>
-                    </div>
-                    <div class="column">
-                        <select class="chord-key">
-                            <option value="manual">Manual Control</option>
-                            <option value="C" selected>C</option>
-                            <option value="C#">C#/Db</option>
-                            <option value="D" >D</option>
-                            <option value="D#">D#/Eb</option>
-                            <option value="E">E</option>
-                            <option value="F">F</option>
-                            <option value="F#">F#/Gb</option>
-                            <option value="G">G</option>
-                            <option value="G#">G#/Ab</option>
-                            <option value="A">A</option>
-                            <option value="A#">A#/Bb</option>
-                            <option value="B">B</option>
-                        </select>
-                    </div>
-                    <div class="column">
-                        <select class="chord-scale">
-                            <option value="major" selected>Major</option>
-                            <option value="minor">Minor</option>
-                            <option value="major7th">Major 7th</option>
-                            <option value="melodicHarmonic">Melodic Harmonic</option>
-                            <option value="minorHarmonic">Minor Harmonic</option>
-                        </select>
-                    </div>
                     <div class="column">
                         <!-- TODO: Render this instead -->
                         <input type="text" class="chord-playing"/>
