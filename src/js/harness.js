@@ -60,31 +60,7 @@ fluid.defaults("cheatar.harness", {
                             }
                         ]
                     },
-                    "noteOff.passToSynth": "{synth}.noteOff()"
-                }
-            }
-        },
-        chordControls: {
-            type: "fluid.viewComponent",
-            container: ".chord-controls",
-            options: {
-                model: {
-                    chordType:    "{synth}.model.chordType",
-                    playingChord: "{synth}.model.playingChord"
-                },
-                selectors: {
-                    "chordType":    ".chord-manual-type",
-                    "playingChord": ".chord-playing"
-                },
-                bindings: {
-                    "chordType":    "chordType",
-                    "playingChord": "playingChord"
-                },
-                listeners: {
-                    "onCreate.applyBindings": {
-                        "funcName": "gpii.binder.applyBinding",
-                        "args":     "{that}"
-                    }
+                    "noteOff.passToSynth": "{synth}.noteOff"
                 }
             }
         },
@@ -103,7 +79,7 @@ fluid.defaults("cheatar.harness", {
             options: {
                 possibleValues: {
                     x: ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"],
-                    y: ["major", "minor", "major7th", "melodicHarmonic", "minorHarmonic"]
+                    y: ["major", "minor", "major7th", "minor7th", "melodicHarmonic", "minorHarmonic"]
                 },
                 model: {
                     selectedIndex: {

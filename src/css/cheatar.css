@@ -1,0 +1,4 @@
+.chord { float:left; width:25%; }
+.chord * { color: #cccccc; }
+.chord.inKey * { font-weight: bold; color: black; }
+.chord.active { background-color: green }

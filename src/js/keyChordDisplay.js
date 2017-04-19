@@ -15,7 +15,7 @@
                 main: "{{body}}"
             },
             pages: {
-                "main": "{{#each .}}<div class='column medium-1'><h4>{{@key}}</h4><h5>{{this}}</h5></div>{{/each}}"
+                "main": "{{#each .}}<div class='chord{{#equals active 1}} active{{/equals}}{{#equals inKey 1}} inKey{{/equals}}' align='center'><h4>{{@key}}</h4><h5>{{type}}</h5></div>{{/each}}"
             }
         },
         invokers: {

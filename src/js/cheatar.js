@@ -146,7 +146,26 @@ cheatar.midiNoteToKey = function (midiNote) {
 
 cheatar.updateKeyChords = function (that) {
     var combinedChord = that.model.chordKey + that.model.chordScale;
-    that.applier.change("keyChords", that.options.chordKeyModifiers[combinedChord]);
+    // TODO:  Work out how to clobber an array properly.
+    that.applier.change("keyChords", false);
+
+    var chordMap = fluid.copy(that.options.baseChordMap);
+    var chordModifiers = that.options.chordKeyModifiers[combinedChord];
+    if (chordModifiers) {
+        fluid.each(chordModifiers, function (type, key) {
+            chordMap[key].type  = type;
+            chordMap[key].inKey = 1;
+        });
+    }
+
+    if (that.model.playingChord) {
+        var matches = that.model.playingChord.match(/([A-Z]#?).+/);
+        if (matches && matches[1]) {
+            chordMap[matches[1]].active = 1;
+        }
+    }
+
+    that.applier.change("keyChords", chordMap);
 };
 
 fluid.defaults("cheatar", {
@@ -162,6 +181,20 @@ fluid.defaults("cheatar", {
     members: {
         activeInterval: false,
         activeTimeouts: []
+    },
+    baseChordMap: {
+        "C":  { type: "major"},
+        "C#": { type: "major"},
+        "D":  { type: "major"},
+        "D#": { type: "major"},
+        "E":  { type: "major"},
+        "F":  { type: "major"},
+        "F#": { type: "major"},
+        "G":  { type: "major"},
+        "G#": { type: "major"},
+        "A":  { type: "major"},
+        "A#": { type: "major"},
+        "B":  { type: "major"}
     },
     // Which chord to automatically use for a given note when we're set to use a particular "chord key"
     // Thanks to http://www.guitaristsource.com/lessons/chords/keys/ for an excellent breakdown of guitar chord keys.
@@ -227,7 +260,7 @@ fluid.defaults("cheatar", {
             "B":  "major",
             "C#": "major",
             "D#": "minor",
-            "E#": "dim"
+            "F":  "dim"
         },
         "Gmajor": {
             "G":  "major",
@@ -289,6 +322,114 @@ fluid.defaults("cheatar", {
         "Bminor":  "{that}.options.chordKeyModifiers.Dmajor",
 
         // Thanks to https://www.basicmusictheory.com/c-harmonic-minor-triad-chords for breaking down harmonic minor, melodic minor and other chords in depth.
+        "Cminor7th": {
+            "C":  "minor",
+            "D":  "dim",
+            "D#": "aug",
+            "F":  "minor",
+            "G":  "major",
+            "G#": "major",
+            "B":  "dim"
+        },
+        "C#minor7th": {
+            "C#":  "minor",
+            "D#":  "dim",
+            "E":   "aug",
+            "F#":  "minor",
+            "G#":  "major",
+            "A":   "major",
+            "C":   "dim"
+        },
+        "Dminor7th": {
+            "D":  "minor",
+            "E":  "dim",
+            "F": "aug",
+            "G":  "minor",
+            "A":  "major",
+            "A#": "major",
+            "C#":  "dim"
+        },
+        "D#minor7th": {
+            "D#": "minor",
+            "F":  "dim",
+            "F#": "aug",
+            "G#": "minor",
+            "A#": "major",
+            "B":  "major",
+            "D":  "dim"
+        },
+        "Eminor7th": {
+            "E":  "minor",
+            "F#": "dim",
+            "G":  "aug",
+            "A":  "minor",
+            "B":  "major",
+            "C":  "major",
+            "D#": "dim"
+        },
+        "Fminor7th": {
+            "F":  "minor",
+            "G":  "dim",
+            "G#": "aug",
+            "A#": "minor",
+            "C":  "major",
+            "C#": "major",
+            "E":  "dim"
+        },
+        "F#minor7th": {
+            "F#": "minor",
+            "G#": "dim",
+            "A":  "aug",
+            "B":  "minor",
+            "C#": "major",
+            "D":  "major",
+            "F":  "dim"
+        },
+        "Gminor7th": {
+            "G":  "minor",
+            "A":  "dim",
+            "A#": "aug",
+            "C":  "minor",
+            "D":  "major",
+            "D#": "major",
+            "F#": "dim"
+        },
+        "G#minor7th": {
+            "G#": "minor",
+            "A#": "dim",
+            "B":  "aug",
+            "C#": "minor",
+            "D#": "major",
+            "E":  "major",
+            "G":  "dim"
+        },
+        "Aminor7th": {
+            "A":  "minor",
+            "B":  "dim",
+            "C":  "aug",
+            "D":  "minor",
+            "E":  "major",
+            "F":  "major",
+            "G#": "dim"
+        },
+        "A#minor7th": {
+            "A#": "minor",
+            "C":  "dim",
+            "C#": "aug",
+            "D#": "minor",
+            "F":  "major",
+            "F#": "major",
+            "A":  "dim"
+        },
+        "B#minor7th": {
+            "B":  "minor",
+            "C#": "dim",
+            "D":  "aug",
+            "E":  "minor",
+            "F#": "major",
+            "G":  "major",
+            "A#": "dim"
+        },
         "CminorHarmonic": {
             "C":  "minor",
             "D":  "dim",
@@ -629,6 +770,8 @@ fluid.defaults("cheatar", {
         dim:      [0, 3, 6],
         aug:      [0, 4, 8],
         halfDim7: [0, 3, 6, 10]
+        // TODO: Reenter harmonic minor chord keys and associate chords
+        // TODO: Extract chord data to "holder" grade and restructure for easier reuse.
         // Alternate chords where the root note is in the "middle", so that the average pitch is closer to hitting the note itself.
         // major:  [-8, 0, 7],     // 0, 4, 7 transposed
         // minor:  [-9, 0, 7],     // 0, 3, 7 transposed
@@ -660,9 +803,20 @@ fluid.defaults("cheatar", {
             args:          ["{that}"],
             excludeSource: "init"
         },
+        playingChord: {
+            funcName:      "cheatar.updateKeyChords",
+            args:          ["{that}"],
+            excludeSource: "init"
+        },
         chordType: {
             func:          "{that}.noteOff",
             excludeSource: "init"
+        }
+    },
+    listeners: {
+        "onCreate.updateKeyChords": {
+            funcName: "cheatar.updateKeyChords",
+            args:     ["{that}"]
         }
     },
     components: {

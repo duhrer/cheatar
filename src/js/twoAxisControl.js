@@ -32,11 +32,11 @@
     };
 
     cheatar.twoAxisControl.handleClick = function (that, event) {
-        // If we are targeting a child element (such as the key), we should pass the event on to the parent.
-        if (event.target !== event.currentTarget) {
-            event.currentTarget.click(event);
-            return false;
-        }
+        // // If we are targeting a child element (such as the key), we should pass the event on to the parent.
+        // if (event.target !== event.currentTarget) {
+        //     event.currentTarget.click(event);
+        //     return false;
+        // }
 
         var x      = event.offsetX;
         var y      = event.offsetY;
