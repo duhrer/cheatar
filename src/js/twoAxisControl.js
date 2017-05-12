@@ -137,10 +137,10 @@
             }
         },
         listeners: {
-            "onCreate.wireControls": [
+            "onMarkupRendered.wireControls": [
                 {
                     "this": "{that}.dom.viewport",
-                    method: "keypress",
+                    method: "keydown",
                     args:   "{that}.handleKeyPress"
                 },
                 {

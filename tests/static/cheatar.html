@@ -78,8 +78,28 @@
             <hr/>
 
             <div class="row">
-                <div class="column medium-6 small-12">
-                    <div id="input-selector"></div>
+                <div class="column medium-3 medium-offset-9">
+                    <button class="button expanded" id="options-toggle">Options</button>
+                </div>
+            </div>
+
+            <div class="hide" id="options-panel">
+                <div class="row">
+                    <div class="column medium-4 small-12">
+                        <label for="volume-controls">Volume</label>
+                        <input id="volume-controls" type="text" value="8"/>
+                    </div>
+                    <div class="column medium-4 small-12">
+                        <label for="inversion-controls">Chord Inversion:</label>
+                        <select id="inversion-controls">
+                            <option value="root" selected>Root (no modification)</option>
+                            <option value="first">First (lowest note raised an octave)</option>
+                            <option value="second">Second (lowest two notes raised an octave)</option>
+                        </select>
+                    </div>
+                    <div class="column medium-4 small-12">
+                        <div id="input-selector"></div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -71,15 +71,22 @@ cheatar.playChord  = function (that, payload) {
         }
     }
 
+    var inversionPattern = that.model.inversion && that.options.inversion && that.options.inversion[that.model.inversion] ? that.options.inversion[that.model.inversion] : false;
+
     var chordPattern = that.options.chords[modifier];
     var playingChord = midiNote + modifier;
     that.applier.change("playingChord", playingChord);
 
     var msBetweenStrings = that.options.strumDuration / chordPattern.length;
-    fluid.each(chordPattern, function (offset, index) {
+    fluid.each(chordPattern, function (chordOffset, index) {
         var delayMs = index * msBetweenStrings;
         var modifiedPayload = fluid.copy(payload);
-        modifiedPayload["chord.value"] = offset;
+
+        // TODO: Figure out a better way of handling this.
+        modifiedPayload["volume.value"] = that.model.volume;
+
+        var combinedOffset = inversionPattern && inversionPattern[index] ? chordOffset + inversionPattern[index] : chordOffset;
+        modifiedPayload["chord.value"] = combinedOffset;
 
         if (that.activeTimeouts[index]) {
             clearTimeout(that.activeTimeouts[index]);
@@ -171,6 +178,8 @@ cheatar.updateKeyChords = function (that) {
 fluid.defaults("cheatar", {
     gradeNames: ["flock.band", "fluid.modelComponent"],
     model: {
+        volume:       36,
+        inversion:    "root",
         chordKey:     "C",
         chordType:    "major",
         keyChords:    "{that}.options.chordKeyModifiers.Cmajor",
@@ -772,18 +781,12 @@ fluid.defaults("cheatar", {
         halfDim7: [0, 3, 6, 10]
         // TODO: Reenter harmonic minor chord keys and associate chords
         // TODO: Extract chord data to "holder" grade and restructure for easier reuse.
-        // Alternate chords where the root note is in the "middle", so that the average pitch is closer to hitting the note itself.
-        // major:  [-8, 0, 7],     // 0, 4, 7 transposed
-        // minor:  [-9, 0, 7],     // 0, 3, 7 transposed
-        // major7: [-8, 0, 7, 11], // 0, 4, 7, 11 transposed (somewhat)
-        // minor7: [-9, 0, 7, 10], // 0, 3, 7, 10 transposed (somewhat)
-        // dom7:   [-8, 0, 7, 10], // 0, 4, 7, 10 transposed (somewhat)
-        // maj6:   [-8, 0, 7, 9],  // 0, 4, 7, 9 transposed (somewhat)
-        // min6:   [-9, 0, 7, 9],  // 0, 3, 7, 9 transposed (somewhat)
-        // sus4:   [-7, 0, 7],     // 0, 5, 7 transposed
-        // ninth:  [-8, 0, 7, 13], // 0, 4, 7, 13 transposed (somewhat)
-        // dim:    [-9, 0, 6],     // 0, 3, 6 transposed
-        // aug:    [-8, 0, 8]      // 0, 4, 8 transposed
+    },
+    // Thanks to http://www.musictheory.net/lessons/42 for the clear explanation and variation names.
+    inversion: {
+        root:   [0,  0,  0], // The default order of notes
+        first:  [12, 0,  0], // The first note is now an octave higher
+        second: [12, 12, 0]  // The first and second notes are now an octave higher
     },
     strumDuration: 150,
     pauseDuration: 300,
@@ -798,6 +801,11 @@ fluid.defaults("cheatar", {
         }
     },
     modelListeners: {
+        // TODO: Reconcile this with the midi controls in some fashion.
+        volume: {
+            func: "{synth}.set",
+            args: ["volume.value", "{that}.model.volume"]
+        },
         chordKey: {
             funcName:      "cheatar.updateKeyChords",
             args:          ["{that}"],

@@ -16,9 +16,39 @@ var cheatar = fluid.registerNamespace("cheatar");
 
 fluid.registerNamespace("cheatar.harness");
 
+cheatar.harness.filterKeyPress = function (that, event) {
+    if (event.keyCode === 13) {
+        that.performToggle(event);
+    }
+};
+
+cheatar.harness.performToggle = function (that, event) {
+    event.preventDefault();
+
+    var elementToToggle = that.locate("optionsPanel");
+
+    $(elementToToggle).toggleClass(that.options.toggleClass);
+};
+
 fluid.defaults("cheatar.harness", {
     gradeNames: ["fluid.viewComponent"],
     pitchbendTarget: "pitchbend.value",
+    toggleClass: "hide",
+    model: {
+        inversion: "root",
+        volume:    36
+    },
+    selectors: {
+        midiPortSelector:  "#input-selector",
+        optionsToggle:     "#options-toggle",
+        optionsPanel:      "#options-panel",
+        inversionControls: "#inversion-controls",
+        volumeControls:    "#volume-controls"
+    },
+    bindings: {
+        "inversionControls": "inversion",
+        "volumeControls":    "volume"
+    },
     components: {
         enviro: "{flock.enviro}",
         controller: {
@@ -47,7 +77,7 @@ fluid.defaults("cheatar.harness", {
         },
         midiConnector: {
             type: "flock.ui.midiConnector",
-            container: "{that}.container",
+            container: "{that}.dom.midiPortSelector",
             options: {
                 listeners: {
                     "noteOn.passToSynth": {
@@ -94,12 +124,42 @@ fluid.defaults("cheatar.harness", {
             }
         },
         synth: {
-            type: "cheatar"
+            type: "cheatar",
+            options: {
+                model: {
+                    inversion: "{harness}.model.inversion",
+                    volume:    "{harness}.model.volume"
+                }
+            }
+        }
+    },
+    invokers: {
+        filterKeyPress: {
+            funcName: "cheatar.harness.filterKeyPress",
+            args:     ["{that}", "{arguments}.0"] // event
+        },
+        performToggle: {
+            funcName: "cheatar.harness.performToggle",
+            args:     ["{that}", "{arguments}.0"] // event
         }
     },
     listeners: {
         onCreate: [
-            "{that}.enviro.start()"
+            "{that}.enviro.start()",
+            {
+                "this": "{that}.dom.optionsToggle",
+                method: "keydown",
+                args:   "{that}.filterKeyPress"
+            },
+            {
+                "this": "{that}.dom.optionsToggle",
+                method: "click",
+                args:   "{that}.performToggle"
+            },
+            {
+                "funcName": "gpii.binder.applyBinding",
+                "args":     "{that}"
+            }
         ]
     }
 });
