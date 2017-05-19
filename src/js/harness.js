@@ -36,7 +36,9 @@ fluid.defaults("cheatar.harness", {
     toggleClass: "hide",
     model: {
         inversion: "root",
-        volume:    36
+        volume:    36,
+        strumDuration: 150,
+        pauseDuration: 500
     },
     selectors: {
         midiPortSelector:  "#input-selector",
@@ -103,13 +105,55 @@ fluid.defaults("cheatar.harness", {
                 }
             }
         },
+        volumeControl: {
+            type: "fluid.textfieldSlider",
+            container: ".volume-slider",
+            options: {
+                model: {
+                    value: "{harness}.model.volume"
+                }
+            }
+        },
+        strumSpeedControl: {
+            type: "fluid.textfieldSlider",
+            container: ".strum-slider",
+            options: {
+                range: {
+                    min: 50,
+                    max: 500
+                },
+                sliderOptions: {
+                    step: 50
+                },
+                model: {
+                    value: "{harness}.model.strumDuration"
+                }
+            }
+        },
+        strumPauseControl: {
+            type: "fluid.textfieldSlider",
+            container: ".pause-slider",
+            options: {
+                range: {
+                    min: 50,
+                    max: 1500
+                },
+                sliderOptions: {
+                    step: 50
+                },
+                model: {
+                    value: "{harness}.model.pauseDuration"
+                }
+            }
+        },
+        // TODO: Replace this with separate controls for key / scale
         twoAxisControl: {
             type: "cheatar.twoAxisControl",
             container: ".auto-chord-twoAxisControl",
             options: {
                 possibleValues: {
                     x: ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"],
-                    y: ["major", "minor", "major7th", "minor7th", "melodicHarmonic", "minorHarmonic"]
+                    y: ["none", "major", "minor", "major7th", "minor7th", "melodicHarmonic", "minorHarmonic"]
                 },
                 model: {
                     selectedIndex: {
@@ -127,8 +171,10 @@ fluid.defaults("cheatar.harness", {
             type: "cheatar",
             options: {
                 model: {
-                    inversion: "{harness}.model.inversion",
-                    volume:    "{harness}.model.volume"
+                    inversion:     "{harness}.model.inversion",
+                    volume:        "{harness}.model.volume",
+                    strumDuration: "{harness}.model.strumDuration",
+                    pauseDuration: "{harness}.model.pauseDuration"
                 }
             }
         }

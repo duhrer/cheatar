@@ -8,7 +8,6 @@ var fluid = fluid || require("infusion");
 var cheatar = fluid.registerNamespace("cheatar");
 
 // TODO: Get pitchbend working again.
-// TODO: Make the "strum" interval controllable, for example using the mod wheel.
 
 fluid.defaults("cheatar.strings", {
     gradeNames: ["flock.synth.polyphonic"],
@@ -61,9 +60,10 @@ fluid.defaults("cheatar.strings", {
 
 cheatar.playChord  = function (that, payload) {
     var midiNote     = cheatar.midiNoteToKey(payload["note.value"]);
-    var modifier     = that.model.chordType;
+    var modifier     = "none";
 
-    if (that.model.chordKey !== "manual") {
+    if (that.model.chordScale !== "none") {
+        modifier = that.model.chordType;
         var fullChordName = that.model.chordKey + that.model.chordScale;
         var modifiers = that.options.chordKeyModifiers[fullChordName];
         if (modifiers && modifiers[midiNote]) {
@@ -77,7 +77,7 @@ cheatar.playChord  = function (that, payload) {
     var playingChord = midiNote + modifier;
     that.applier.change("playingChord", playingChord);
 
-    var msBetweenStrings = that.options.strumDuration / chordPattern.length;
+    var msBetweenStrings = that.model.strumDuration / chordPattern.length;
     fluid.each(chordPattern, function (chordOffset, index) {
         var delayMs = index * msBetweenStrings;
         var modifiedPayload = fluid.copy(payload);
@@ -109,7 +109,7 @@ cheatar.sendNoteOn = function (that, payload) {
     cheatar.playChord(that, payload);
 
     // As as the note is "on", "strum" every so often.
-    that.activeInterval = setInterval(cheatar.playChord, that.options.strumDuration + that.options.pauseDuration, that, payload);
+    that.activeInterval = setInterval(cheatar.playChord, that.model.strumDuration + that.model.pauseDuration, that, payload);
 };
 
 cheatar.clearInterval = function (that) {
@@ -152,7 +152,7 @@ cheatar.midiNoteToKey = function (midiNote) {
 };
 
 cheatar.updateKeyChords = function (that) {
-    var combinedChord = that.model.chordKey + that.model.chordScale;
+    var combinedChord = that.model.chordScale === "none" ? "none" : that.model.chordKey + that.model.chordScale;
     // TODO:  Work out how to clobber an array properly.
     that.applier.change("keyChords", false);
 
@@ -184,7 +184,9 @@ fluid.defaults("cheatar", {
         chordType:    "major",
         keyChords:    "{that}.options.chordKeyModifiers.Cmajor",
         chordScale:   "major",
-        playingChord: "-"
+        playingChord: "-",
+        strumDuration: 150,
+        pauseDuration: 300
     },
     noteMs: 200,
     members: {
@@ -208,6 +210,20 @@ fluid.defaults("cheatar", {
     // Which chord to automatically use for a given note when we're set to use a particular "chord key"
     // Thanks to http://www.guitaristsource.com/lessons/chords/keys/ for an excellent breakdown of guitar chord keys.
     chordKeyModifiers: {
+        none: {
+            "C":  "-",
+            "C#": "-",
+            "D":  "-",
+            "D#": "-",
+            "E":  "-",
+            "F":  "-",
+            "F#": "-",
+            "G":  "-",
+            "G#": "-",
+            "A":  "-",
+            "A#": "-",
+            "B":  "-"
+        },
         Cmajor: {
             C: "major",
             D: "minor",
@@ -766,6 +782,7 @@ fluid.defaults("cheatar", {
         // TODO:  Add support for minor7, harmonicMinor7 and melodicMinor7
     },
     chords: {
+        none:     [0],
         // Thanks to http://edmprod.com/different-chord-types/ for an excellent explanation of various chords.
         major:    [0, 4, 7],
         minor:    [0, 3, 7],
@@ -788,8 +805,6 @@ fluid.defaults("cheatar", {
         first:  [12, 0,  0], // The first note is now an octave higher
         second: [12, 12, 0]  // The first and second notes are now an octave higher
     },
-    strumDuration: 150,
-    pauseDuration: 300,
     invokers: {
         noteOn: {
             funcName: "cheatar.sendNoteOn",

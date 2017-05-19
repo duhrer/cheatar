@@ -43,6 +43,10 @@
         <script src="../../node_modules/gpii-handlebars/src/js/client/renderer.js"></script>
         <script src="../../node_modules/gpii-handlebars/src/js/client/templateAware.js"></script>
 
+        <!-- "stepper" dependencies -->
+        <script type="text/javascript" src="../../node_modules/infusion/src/components/tooltip/js/Tooltip.js"></script>
+        <script type="text/javascript" src="../../node_modules/infusion/src/components/textfieldSlider/js/TextfieldSlider.js"></script>
+
         <!-- Binder dependencies -->
         <script src="../../node_modules/gpii-binder/src/js/binder.js"></script>
 
@@ -85,11 +89,52 @@
 
             <div class="hide" id="options-panel">
                 <div class="row">
-                    <div class="column medium-4 small-12">
+                    <div class="column medium-12 small-12">
                         <label for="volume-controls">Volume</label>
-                        <input id="volume-controls" type="text" value="8"/>
+                        <div class="volume-slider fl-textfieldSlider fl-focus row">
+                            <div class="column small-9">
+                                <span>0</span>
+                                <input class="flc-textfieldSlider-slider fl-slider" type="range" aria-label="Volume Slider">
+                                <span>100</span>
+                            </div>
+                            <div class="column small-3">
+                                <input id="volume-controls" class="flc-textfieldSlider-field fl-textfieldSlider-textField" type="text" aria-label="Volume Text Input">
+                            </div>
+                        </div>
                     </div>
-                    <div class="column medium-4 small-12">
+                </div>
+                <div class="row">
+                    <div class="column medium-12 small-12">
+                        <label for="strum-controls">Strum Duration</label>
+                        <div class="strum-slider fl-textfieldSlider fl-focus row">
+                            <div class="column small-9">
+                                <span>50 ms</span>
+                                <input class="flc-textfieldSlider-slider fl-slider" type="range" aria-label="Strum Speed Slider">
+                                <span>500 ms</span>
+                            </div>
+                            <div class="column small-3">
+                                <input id="strum-controls" class="flc-textfieldSlider-field fl-textfieldSlider-textField" type="text" aria-label="Strum Speed Text Input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column medium-12 small-12">
+                        <label for="pause-controls">Pause Duration</label>
+                        <div class="pause-slider fl-textfieldSlider fl-focus row">
+                            <div class="column small-9">
+                                <span>50 ms</span>
+                                <input class="flc-textfieldSlider-slider fl-slider" type="range" aria-label="Pause Speed Slider">
+                                <span>1500 ms</span>
+                            </div>
+                            <div class="column small-3">
+                                <input id="pause-controls" class="flc-textfieldSlider-field fl-textfieldSlider-textField" type="text" aria-label="Pause Speed Text Input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column medium-6 small-12">
                         <label for="inversion-controls">Chord Inversion:</label>
                         <select id="inversion-controls">
                             <option value="root" selected>Root (no modification)</option>
@@ -97,7 +142,7 @@
                             <option value="second">Second (lowest two notes raised an octave)</option>
                         </select>
                     </div>
-                    <div class="column medium-4 small-12">
+                    <div class="column medium-6 small-12">
                         <div id="input-selector"></div>
                     </div>
                 </div>

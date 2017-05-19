@@ -2,3 +2,15 @@
 .chord * { color: #cccccc; }
 .chord.inKey * { font-weight: bold; color: black; }
 .chord.active { background-color: green }
+
+.fl-slider {
+    flex-grow: 1;
+    margin: 0 1rem;
+    width: 75%;
+}
+
+.fl-textfieldSlider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
