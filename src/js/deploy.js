@@ -55,6 +55,8 @@ fluid.defaults("cheatar.generator", {
         "./node_modules/infusion/src/framework/renderer/js/fluidParser.js",
         "./node_modules/infusion/src/framework/renderer/js/fluidRenderer.js",
         "./node_modules/infusion/src/framework/core/js/FluidRequests.js",
+        "./node_modules/infusion/src/components/tooltip/js/Tooltip.js",
+        "./node_modules/infusion/src/components/textfieldSlider/js/TextfieldSlider.js",
         "./node_modules/handlebars/dist/handlebars.js",
         "./node_modules/pagedown/Markdown.Converter.js",
         "./node_modules/pagedown/Markdown.Sanitizer.js",
