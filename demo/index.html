@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>"Cheatar" Demo</title>
+
+        <!-- Infusion dependencies -->
+        <script src="../node_modules/infusion/dist/infusion-all.js"></script>
+
+        <!-- Handlebars dependency -->
+        <script src="../node_modules/handlebars/dist/handlebars.js"></script>
+
+        <!-- gpii-handlebars dependencies -->
+        <script src="../node_modules/markdown-it/dist/markdown-it.js"></script>
+        <script src="../node_modules/gpii-handlebars/src/js/client/hasRequiredOptions.js"></script>
+        <script src="../node_modules/gpii-handlebars/src/js/common/helper.js"></script>
+        <script src="../node_modules/gpii-handlebars/src/js/common/md-common.js"></script>
+        <script src="../node_modules/gpii-handlebars/src/js/client/md-client.js"></script>
+        <script src="../node_modules/gpii-handlebars/src/js/common/jsonify.js"></script>
+        <script src="../node_modules/gpii-handlebars/src/js/common/equals.js"></script>
+        <script src="../node_modules/gpii-handlebars/src/js/client/renderer.js"></script>
+        <script src="../node_modules/gpii-handlebars/src/js/client/templateAware.js"></script>
+
+        <!-- "stepper" dependencies -->
+        <script type="text/javascript" src="../node_modules/infusion/src/components/tooltip/js/Tooltip.js"></script>
+        <script type="text/javascript" src="../node_modules/infusion/src/components/textfieldControl/js/TextfieldSlider.js"></script>
+
+        <!-- Binder dependencies -->
+        <script src="../node_modules/gpii-binder/src/js/binder.js"></script>
+
+        <!-- UI components -->
+        <script src="../src/js/select.js"></script>
+
+        <!-- Flocking dependencies -->
+        <script src="../node_modules/flocking/dist/flocking-all.js"></script>
+        <script src="../node_modules/flocking/src/ui/selectbox/js/selectbox.js"></script>
+
+        <script src="../node_modules/flocking/src/ui/midi/midi-port-selector/js/midi-port-selector.js"></script>
+        <script src="../node_modules/flocking/src/ui/midi/midi-connector/js/midi-connector.js"></script>
+
+        <script src="../src/js/keyChordDisplay.js"></script>
+        <script src="../src/js/arpeggiator.js"></script>
+        <script src="../src/js/harness.js"></script>
+
+        <link rel="stylesheet" href="../node_modules/foundation-sites/dist/css/foundation.css"/>
+        <link rel="stylesheet" href="../src/css/cheatar.css"/>
+
+    </head>
+
+    <body>
+        <div class="synth-container">
+            <div class="grid-x grid-padding-x grid-margin-x">
+                <div class="cell small-6 medium-6">
+                    <h3>Scale:</h3>
+                    <div class="scale-controls"></div>
+                </div>
+                <div class="cell small-6 medium-6">
+                    <h3>Strum Pattern:</h3>
+                    <div class="strum-pattern-controls"></div>
+                </div>
+            </div>
+
+            <hr/>
+
+            <div class="row key-chord-display">
+                Chord/Note Chart
+            </div>
+
+            <hr/>
+
+            <div class="grid-x">
+                <div class="column medium-3 medium-offset-9">
+                    <button class="button expanded" id="options-toggle">Options</button>
+                </div>
+            </div>
+
+            <div class="hide" id="options-panel">
+                <!-- TODO Get a sensible strum length control and add a description about what a "strum" means here. -->
+                <!--<div class="row">-->
+                    <!--<div class="column medium-12 small-12">-->
+                        <!--<label for="strum-controls">Strum Duration</label>-->
+                        <!--<div class="strum-slider fl-textfieldSlider fl-focus row">-->
+                            <!--<div class="column small-9">-->
+                                <!--<span>50 ms</span>-->
+                                <!--<input class="flc-textfieldSlider-slider fl-slider" type="range" aria-label="Strum Speed Slider">-->
+                                <!--<span>500 ms</span>-->
+                            <!--</div>-->
+                            <!--<div class="column small-3">-->
+                                <!--<input id="strum-controls" class="flc-textfieldSlider-field fl-textfieldSlider-textField" type="text" aria-label="Strum Speed Text Input">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <div class="row">
+                    <div class="column medium-6 small-12">
+                        <label for="inversion-controls">Chord Inversion:</label>
+                        <select id="inversion-controls">
+                            <option value="root" selected>Root (no modification)</option>
+                            <option value="first">First (lowest note raised an octave)</option>
+                            <option value="second">Second (lowest two notes raised an octave)</option>
+                        </select>
+                    </div>
+                    <div class="column medium-5 small-10">
+                        <div id="input-selector"></div>
+                    </div>
+                    <div class="column medium-6 small-12">
+                        <div id="output-selector"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            var cheatarComponent = cheatar.harness(".synth-container");
+        </script>
+    </body>
+</html>

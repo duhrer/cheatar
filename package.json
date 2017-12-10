@@ -14,18 +14,19 @@
   "license": "BSD-3-Clause",
   "homepage": "https://bitbucket.org/duhrer/cheatar#readme",
   "dependencies": {
-    "flocking": "0.2.0-dev.20170206T221943Z.fb09a52",
-    "foundation-sites": "^6.3.1",
-    "gpii-binder": "1.0.0-dev.20170127T144054Z.54a5ef2",
-    "gpii-handlebars": "^1.0.0-dev.20170410T080131Z.aebe827",
-    "infusion": "3.0.0-dev.20170127T130413Z.103de6e"
+    "flocking": "git://github.com/the-t-in-rtf/Flocking.git#5a7cae8c95946e3f4bb7d97e2d9d9832287ffa3c",
+    "flocking-midi-router": "git://github.com/the-t-in-rtf/flocking-midi-router#618f2e8ae21cbbf146cb16cd94ba94f659a59692",
+    "foundation-sites": "6.4.3",
+    "gpii-binder": "1.0.3",
+    "gpii-handlebars": "1.1.0",
+    "infusion": "3.0.0-dev.20171121T212609Z.9b4fde781"
   },
   "devDependencies": {
-    "eslint": "3.14.1",
-    "eslint-config-fluid": "1.1.0",
+    "eslint": "4.12.0",
+    "eslint-config-fluid": "1.2.0",
     "fluid-grunt-eslint": "18.1.2",
     "grunt": "1.0.1",
     "grunt-jsonlint": "1.1.0",
-    "recursive-copy": "^2.0.6"
+    "recursive-copy": "2.0.6"
   }
 }

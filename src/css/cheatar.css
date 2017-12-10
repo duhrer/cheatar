@@ -3,6 +3,10 @@
 .chord.inKey * { font-weight: bold; color: black; }
 .chord.active { background-color: green }
 
+.chord.isKeyItself {
+    border: 2px dashed #ccc;
+}
+
 .fl-slider {
     flex-grow: 1;
     margin: 0 1rem;
