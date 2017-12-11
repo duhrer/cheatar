@@ -64,7 +64,6 @@ fluid.defaults("cheatar.generator", {
         "./src/js/arpeggiator.js",
         "./src/js/harness.js",
         "./node_modules/foundation-sites/dist/css/foundation.css",
-        "./node_modules/foundation-sites/dist/css/foundation.css.map",
         "./src/css/cheatar.css"
     ],
     listeners: {
