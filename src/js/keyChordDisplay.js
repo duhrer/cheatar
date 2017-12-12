@@ -121,48 +121,36 @@
             }
         },
         listeners: {
-            "onMarkupRendered.wireChordsMouseDown": [
-                {
-                    "this": "{that}.dom.keys",
-                    method: "mousedown",
-                    args:   ["{that}.handleMouseDown"]
-                }
-            ],
-            "onMarkupRendered.wireChordsMouseUp": [
-                {
-                    "this": "{that}.dom.keys",
-                    method: "on",
-                    args:   ["mouseup", "{that}.handleMouseUp"]
-                }
-            ],
-            "onMarkupRendered.wireChordsKeyDown": [
-                {
-                    "this": "{that}.dom.keys",
-                    method: "on",
-                    args:   ["keydown", "{that}.handleKeyDown"]
-                }
-            ],
-            "onMarkupRendered.wireChordsKeyUp": [
-                {
-                    "this": "{that}.dom.keys",
-                    method: "on",
-                    args:   ["keyup", "{that}.handleKeyUp"]
-                }
-            ],
-            "onMarkupRendered.wireKeyChangeMouseDown": [
-                {
-                    "this": "{that}.dom.keyChange",
-                    method: "mousedown",
-                    args:   ["{that}.handleKeyChangeButton"]
-                }
-            ],
-            "onMarkupRendered.wireKeyChangeKeyDown": [
-                {
-                    "this": "{that}.dom.keyChange",
-                    method: "on",
-                    args:   ["keydown", "{that}.handleKeyDown", "{that}.handleKeyChangeButton"]
-                }
-            ]
+            "onMarkupRendered.wireChordsMouseDown": {
+                "this": "{that}.dom.keys",
+                method: "mousedown",
+                args:   ["{that}.handleMouseDown"]
+            },
+            "onMarkupRendered.wireChordsMouseUp": {
+                "this": "{that}.dom.keys",
+                method: "on",
+                args:   ["mouseup", "{that}.handleMouseUp"]
+            },
+            "onMarkupRendered.wireChordsKeyDown": {
+                "this": "{that}.dom.keys",
+                method: "on",
+                args:   ["keydown", "{that}.handleKeyDown"]
+            },
+            "onMarkupRendered.wireChordsKeyUp": {
+                "this": "{that}.dom.keys",
+                method: "on",
+                args:   ["keyup", "{that}.handleKeyUp"]
+            },
+            "onMarkupRendered.wireKeyChangeMouseDown": {
+                "this": "{that}.dom.keyChange",
+                method: "mousedown",
+                args:   ["{that}.handleKeyChangeButton"]
+            },
+            "onMarkupRendered.wireKeyChangeKeyDown": {
+                "this": "{that}.dom.keyChange",
+                method: "on",
+                args:   ["keydown", "{that}.handleKeyDown", "{that}.handleKeyChangeButton"]
+            }
         }
     });
 })(jQuery, fluid);
