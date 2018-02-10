@@ -18,3 +18,19 @@
     justify-content: center;
     align-items: center;
 }
+
+:focus {
+    background-color: red;
+}
+
+.switch-input:focus {
+    border: 1px solid #fcc;
+}
+
+.switch-paddle:focus {
+    border: 1px solid #ccf;
+}
+
+.switch:focus {
+    border: 1px solid #cfc;
+}

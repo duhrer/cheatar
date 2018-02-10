@@ -10,12 +10,12 @@
 
     cheatar.keyChordDisplay.filterKeys = function (that, event, gatedFunction) {
         if (that.options.monitoredKeyCodes.indexOf(event.which) !== -1) {
-            event.preventDefault();
             gatedFunction(event);
         }
     };
 
     cheatar.keyChordDisplay.keyOff = function (that, event) {
+        event.preventDefault();
         if (!that.model.changingKeys) {
             var keyElement = event.currentTarget;
             var key = keyElement.getAttribute("key");
@@ -25,6 +25,7 @@
     };
 
     cheatar.keyChordDisplay.keyOn = function (that, event) {
+        event.preventDefault();
         var keyElement = event.currentTarget;
         var key = keyElement.getAttribute("key");
         if (that.model.changingKeys) {
@@ -39,6 +40,18 @@
             that.applier.change(["playingNotes", key], true);
         }
     };
+
+    // // TODO: exercise this and write up a feature request against gpii-handlebars.
+    // cheatar.keyChordDisplay.redrawPreservingFocus = function (that) {
+    //     var focusElement = that.locate("hasFocus");
+    //     var focusKey = focusElement.length && focusElement.getAttribute("key");
+    //
+    //     that.renderMarkup("viewport", "main", that.model.keyChords, "html"); //  selector, template, data, manipulator
+    //
+    //     if (focusKey) {
+    //         $(".chord[key='" + focusKey + "']").focus();
+    //     }
+    // };
 
     cheatar.keyChordDisplay.handleKeyChangeButton = function (that) {
         var buttonElement = that.locate("keyChange");
@@ -55,6 +68,7 @@
             chordKey:     "C"
         },
         selectors: {
+            // hasFocus: ".focus",
             viewport:  "",
             keys:      ".chord",
             keyChange: ".key-change-button"
@@ -68,6 +82,10 @@
             }
         },
         invokers: {
+            // renderInitialMarkup: {
+            //     funcName: "cheatar.keyChordDisplay.redrawPreservingFocus",
+            //     args:     ["{that}"]
+            // },
             renderInitialMarkup: {
                 func: "{that}.renderMarkup",
                 args: [
@@ -123,13 +141,13 @@
         listeners: {
             "onMarkupRendered.wireChordsMouseDown": {
                 "this": "{that}.dom.keys",
-                method: "mousedown",
-                args:   ["{that}.handleMouseDown"]
+                method: "on",
+                args:   ["mousedown touchstart", "{that}.handleMouseDown"]
             },
             "onMarkupRendered.wireChordsMouseUp": {
                 "this": "{that}.dom.keys",
                 method: "on",
-                args:   ["mouseup", "{that}.handleMouseUp"]
+                args:   ["mouseup touchend", "{that}.handleMouseUp"]
             },
             "onMarkupRendered.wireChordsKeyDown": {
                 "this": "{that}.dom.keys",
@@ -143,8 +161,8 @@
             },
             "onMarkupRendered.wireKeyChangeMouseDown": {
                 "this": "{that}.dom.keyChange",
-                method: "mousedown",
-                args:   ["{that}.handleKeyChangeButton"]
+                method: "on",
+                args:   ["mousedown touchstart", "{that}.handleKeyChangeButton"]
             },
             "onMarkupRendered.wireKeyChangeKeyDown": {
                 "this": "{that}.dom.keyChange",

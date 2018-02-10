@@ -7,9 +7,6 @@
 /* globals flock */
 (function (fluid, flock) {
     "use strict";
-    fluid = fluid || require("infusion");
-    flock = flock || require("flocking");
-
     var environment = flock.init(); // eslint-disable-line no-unused-vars
 
     var cheatar = fluid.registerNamespace("cheatar");
@@ -66,20 +63,41 @@
         toggleClass: "hide",
         model: {
             octave:        3, // TODO: Add a control for this.
-            inversion:     "root",
             strumDuration: 150,
             pauseDuration: 500,
-            playingNotes:  {}
+            playingNotes:  {},
+            arpeggiation: "{arpeggiator}.model.arpeggiation"
         },
         selectors: {
             midiInputSelector:  "#input-selector",
             midiOutputSelector: "#output-selector",
             optionsToggle:      "#options-toggle",
             optionsPanel:       "#options-panel",
-            inversionControls:  "#inversion-controls"
+            arpeggiationToggle: "#strumming-on-off"
         },
         bindings: {
-            "inversionControls": "inversion"
+            "arpeggiationToggle": {
+                selector: "arpeggiationToggle",
+                path:     "arpeggiation",
+                rules: {
+                    domToModel: {
+                        "": {
+                            transform: {
+                                type: "gpii.binder.transforms.checkToBoolean",
+                                inputPath: ""
+                            }
+                        }
+                    },
+                    modelToDom: {
+                        "": {
+                            transform: {
+                                type: "gpii.binder.transforms.booleanToCheck",
+                                inputPath: ""
+                            }
+                        }
+                    }
+                }
+            }
         },
         components: {
             enviro: "{flock.enviro}",
