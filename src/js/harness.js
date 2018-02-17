@@ -7,8 +7,6 @@
 /* globals flock */
 (function (fluid, flock) {
     // TODO: Add appropriate control code listener to enable key change from compatible keyboard.
-    // TODO: When "key change" is active, pressing a note should change to that key.
-    // TODO: Make note presses in a device highlight the note pressed.
     "use strict";
     var environment = flock.init(); // eslint-disable-line no-unused-vars
 
@@ -65,9 +63,8 @@
         pitchbendTarget: "pitchbend.value",
         toggleClass: "hide",
         model: {
-            octave:        3, // TODO: Add a control for this.
+            octave:        3, // TODO: Add a control for the onscreen octave.
             strumDuration: 150,
-            pauseDuration: 500,
             playingNotes:  {},
             arpeggiation: "{arpeggiator}.model.arpeggiation"
         },

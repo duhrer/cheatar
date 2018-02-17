@@ -11,13 +11,8 @@
         var modifier     = "none";
 
         if (that.model.chordScale !== "none") {
-            // TODO: Figure out why we have both chordType and chordScale and simplify or document better.
-            modifier = that.model.chordType;
-            var fullChordName = that.model.chordKey + that.model.chordScale;
-            var modifiers = that.options.chordKeyModifiers[fullChordName];
-            if (modifiers && modifiers[midiNote]) {
-                modifier = modifiers[midiNote];
-            }
+            var fullChordName = that.model.chordKey + modifier;
+            modifier = fluid.get(that.options.chordKeyModifiers, [fullChordName, midiNote]) || that.model.chordScale;
         }
 
         var chordPattern = that.options.chords[modifier];
@@ -67,14 +62,6 @@
         }
     };
 
-    // cheatar.arpeggiator.sendSingleNoteOff = function (that, destination, index, payload) {
-    //     var singleNoteTimeout = that.activeTimeouts[index];
-    //     if (singleNoteTimeout) {
-    //         clearTimeout(singleNoteTimeout);
-    //     }
-    //     destination.send(payload);
-    // };
-
     cheatar.arpeggiator.sendNoteOff = function (that, destination, payload) {
         // TODO: Standardise and sanitise this.
         var midiNote     = cheatar.arpeggiator.midiNoteToKey(payload.note);
@@ -83,31 +70,18 @@
         that.applier.change(["playingNotes", midiNote], false);
 
         if (that.model.chordScale !== "none") {
-            modifier = that.model.chordType;
-            var fullChordName = that.model.chordKey + that.model.chordScale;
-            var modifiers = that.options.chordKeyModifiers[fullChordName];
-            if (modifiers && modifiers[midiNote]) {
-                modifier = modifiers[midiNote];
-            }
+            var fullChordName = that.model.chordKey + modifier;
+            modifier = fluid.get(that.options.chordKeyModifiers, [fullChordName, midiNote]) || that.model.chordScale;
         }
-
-        var inversionPattern = that.model.inversion && that.options.inversion && that.options.inversion[that.model.inversion] ? that.options.inversion[that.model.inversion] : false;
 
         var chordPattern = that.options.chords[modifier];
         that.applier.change("playingChord", false);
 
-        fluid.each(chordPattern, function (chordOffset, index) {
+        fluid.each(chordPattern, function (chordOffset) {
             var singleNoteOff = fluid.copy(payload);
-
-            var combinedOffset = inversionPattern && inversionPattern[index] ? chordOffset + inversionPattern[index] : chordOffset;
-            singleNoteOff.note += combinedOffset;
+            singleNoteOff.note += chordOffset;
             destination.send(singleNoteOff);
         });
-
-        // TODO: Remove this once we have exercised the above more.
-        // // Rather than inspect or otherwise manage currently playing notes, send "All notes off" control code.
-        // // This allows us to very cleanly switch between finger picking and chords without having to manage timeouts.
-        // destination.send({type: "control", "number": 120, value: 0});
     };
 
     cheatar.arpeggiator.noteNames = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
@@ -171,15 +145,12 @@
     fluid.defaults("cheatar.arpeggiator", {
         gradeNames: ["fluid.modelComponent"],
         model: {
-            inversion:     "root",
             chordKey:      "C",
-            chordType:     "major",
             keyChords:     "{that}.options.chordKeyModifiers.Cmajor",
             chordScale:    "major",
             playingChord:  "-",
-            strumDuration: 150,
-            noteMs:        1000,
-            pauseDuration: 500,
+            strumDuration: 100,
+            noteMs:        500,
             arpeggiation:  true
         },
         members: {
@@ -252,11 +223,6 @@
                 args:          ["{that}"],
                 excludeSource: "init"
             },
-            // playingChord: {
-            //     funcName:      "cheatar.arpeggiator.updateKeyChords",
-            //     args:          ["{that}"],
-            //     excludeSource: "init"
-            // },
             chordScale: {
                 funcName:      "cheatar.arpeggiator.updateKeyChords",
                 args:          ["{that}"]
