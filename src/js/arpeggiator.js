@@ -49,8 +49,20 @@
     };
 
     cheatar.arpeggiator.sendNoteOn = function (that, destination, payload) {
-        // Play the chord once
-        cheatar.arpeggiator.playChord(that, destination, payload);
+        // Change the key to the played note.
+        if (that.model.changingKeys) {
+            var midiNote     = cheatar.arpeggiator.midiNoteToKey(payload.note);
+            var currentChord = that.model.chordKey + that.model.chordScale;
+            var newChordScale = that.options.chordKeyModifiers[currentChord][midiNote];
+
+            that.applier.change("chordKey", midiNote);
+            that.applier.change("chordScale", newChordScale);
+            that.applier.change("changingKeys", false);
+        }
+        // Play the chord once.
+        else {
+            cheatar.arpeggiator.playChord(that, destination, payload);
+        }
     };
 
     // cheatar.arpeggiator.sendSingleNoteOff = function (that, destination, index, payload) {

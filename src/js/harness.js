@@ -6,6 +6,9 @@
  */
 /* globals flock */
 (function (fluid, flock) {
+    // TODO: Add appropriate control code listener to enable key change from compatible keyboard.
+    // TODO: When "key change" is active, pressing a note should change to that key.
+    // TODO: Make note presses in a device highlight the note pressed.
     "use strict";
     var environment = flock.init(); // eslint-disable-line no-unused-vars
 
@@ -102,7 +105,12 @@
         components: {
             enviro: "{flock.enviro}",
             arpeggiator: {
-                type: "cheatar.arpeggiator"
+                type: "cheatar.arpeggiator",
+                options: {
+                    model: {
+                        changingKeys: "{keyChordDisplay}.model.changingKeys"
+                    }
+                }
             },
             // TODO: Save the current settings to a cookie and attempt to use them on startup.
             midiInputSelector: {
