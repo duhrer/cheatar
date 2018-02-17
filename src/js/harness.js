@@ -108,7 +108,8 @@
                 type: "cheatar.arpeggiator",
                 options: {
                     model: {
-                        changingKeys: "{keyChordDisplay}.model.changingKeys"
+                        changingKeys: "{keyChordDisplay}.model.changingKeys",
+                        playingNotes: "{keyChordDisplay}.model.playingNotes"
                     }
                 }
             },

@@ -11,6 +11,7 @@
         var modifier     = "none";
 
         if (that.model.chordScale !== "none") {
+            // TODO: Figure out why we have both chordType and chordScale and simplify or document better.
             modifier = that.model.chordType;
             var fullChordName = that.model.chordKey + that.model.chordScale;
             var modifiers = that.options.chordKeyModifiers[fullChordName];
@@ -21,6 +22,7 @@
 
         var chordPattern = that.options.chords[modifier];
         var playingChord = midiNote + modifier;
+        that.applier.change(["playingNotes", midiNote], true);
         that.applier.change("playingChord", playingChord);
 
         // Adjust the strum duration so that harder strums are played more quickly.  The hardest note is played 50%
@@ -77,6 +79,8 @@
         // TODO: Standardise and sanitise this.
         var midiNote     = cheatar.arpeggiator.midiNoteToKey(payload.note);
         var modifier     = "none";
+
+        that.applier.change(["playingNotes", midiNote], false);
 
         if (that.model.chordScale !== "none") {
             modifier = that.model.chordType;

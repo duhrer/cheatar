@@ -35,10 +35,24 @@
             that.applier.change("changingKeys", false);
         }
         else {
-            $(keyElement).addClass("active");
+            //$(keyElement).addClass("active");
 
             that.applier.change(["playingNotes", key], true);
         }
+    };
+
+    cheatar.keyChordDisplay.displayPlayingNotes = function (that) {
+        var chordElements = that.locate("keys");
+        fluid.each(chordElements, function (singleChordElement) {
+            var key = singleChordElement.getAttribute("key");
+            if (that.model.playingNotes[key]) {
+                $(singleChordElement).addClass("active");
+            }
+            else {
+                $(singleChordElement).removeClass("active");
+            }
+        });
+        // <a key="C" type="major" class="chord inKey active" align="center" href="#"><h4>C</h4><h5>major</h5></a>
     };
 
     // // TODO: exercise this and write up a feature request against gpii-handlebars.
@@ -136,6 +150,10 @@
         modelListeners: {
             keyChords: {
                 func: "{that}.renderInitialMarkup"
+            },
+            playingNotes: {
+                funcName: "cheatar.keyChordDisplay.displayPlayingNotes",
+                args:     ["{that}"]
             }
         },
         listeners: {
