@@ -63,7 +63,7 @@
         pitchbendTarget: "pitchbend.value",
         toggleClass: "hide",
         model: {
-            octave:        3, // TODO: Add a control for the onscreen octave.
+            octave:        3,
             strumDuration: 150,
             playingNotes:  {},
             arpeggiation: "{arpeggiator}.model.arpeggiation"
@@ -155,6 +155,10 @@
                     }
                 }
             },
+            keyChangeControls: {
+                type: "cheatar.keyChangeButton",
+                container: ".key-change-controls"
+            },
             keyChordDisplay: {
                 type: "cheatar.keyChordDisplay",
                 container: ".key-chord-display",
@@ -163,7 +167,8 @@
                         playingNotes: "{harness}.model.playingNotes",
                         keyChords:    "{arpeggiator}.model.keyChords",
                         chordKey:     "{arpeggiator}.model.chordKey",
-                        chordScale:   "{arpeggiator}.model.chordScale"
+                        chordScale:   "{arpeggiator}.model.chordScale",
+                        changingKeys: "{keyChangeControls}.model.changingKeys"
                     }
                 }
             },
@@ -183,6 +188,21 @@
                                 value: "none"
                             }
                         }
+                    }
+                }
+            },
+            strumLengthControl: {
+                type: "fluid.textfieldSlider",
+                container: ".strum-length-slider",
+                options: {
+                    scale: 0,
+                    model: {
+                        step: 25,
+                        range: {
+                            min: 25,
+                            max: 2500
+                        },
+                        value: "{arpeggiator}.model.strumDuration"
                     }
                 }
             },
@@ -213,23 +233,21 @@
                     }
                 }
             },
-            // TODO: Get a replacement for these working.
-            // strumSpeedControl: {
-            //     type: "fluid.textfieldSlider",
-            //     container: ".strum-slider",
-            //     options: {
-            //         range: {
-            //             min: 50,
-            //             max: 500
-            //         },
-            //         sliderOptions: {
-            //             step: 50
-            //         },
-            //         model: {
-            //             value: "{harness}.model.strumDuration"
-            //         }
-            //     }
-            // }
+            octaveControl: {
+                type: "fluid.textfieldSlider",
+                container: ".octave-slider",
+                options: {
+                    scale: 0,
+                    model: {
+                        step: 1,
+                        range: {
+                            min: 0,
+                            max: 7
+                        },
+                        value: "{harness}.model.octave"
+                    }
+                }
+            }
         },
         invokers: {
             filterKeyPress: {

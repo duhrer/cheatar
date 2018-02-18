@@ -46,6 +46,7 @@
         <script src="./src/js/keyChordDisplay.js"></script>
         <script src="./src/js/keychords.js"></script>
         <script src="./src/js/arpeggiator.js"></script>
+        <script src="./src/js/keyChangeButton.js"></script>
         <script src="./src/js/harness.js"></script>
 
         <link rel="stylesheet" href="./node_modules/foundation-sites/dist/css/foundation.css"/>
@@ -55,14 +56,18 @@
 
     <body>
         <div class="synth-container">
-            <div class="grid-x grid-padding-x grid-margin-x">
-                <div class="cell small-6 medium-6">
+            <div class="grid-x ">
+                <div class='cell small-6 medium-2 key-change-controls align-middle'>
+                    <div style="display:flex; flex-direction: column; justify-content: flex-end; height:100%">
+                        <button class="key-change-button button">Change Key</button>
+                    </div>
+                </div>
+                <div class="cell small-6  medium-offset-4 medium-2">
                     <h3>Scale:</h3>
                     <div class="scale-controls"></div>
                 </div>
-                <div class="cell small-6 medium-6">
-                    <h3>Strumming:</h3>
-                    <div class="strum-pattern-controls"></div>
+                <div class="cell small-6 medium-offset-1 medium-2">
+                    <h3>Strum:</h3>
 
                     <div class="switch large">
                         <input class="switch-input" id="strumming-on-off" type="checkbox" name="exampleSwitch" tabindex="0">
@@ -90,22 +95,6 @@
             </div>
 
             <div class="hide" id="options-panel">
-                <!-- TODO Get a sensible strum length control and add a description about what a "strum" means here. -->
-                <!--<div class="row">-->
-                    <!--<div class="column medium-12 small-12">-->
-                        <!--<label for="strum-controls">Strum Duration</label>-->
-                        <!--<div class="strum-slider fl-textfieldSlider fl-focus row">-->
-                            <!--<div class="column small-9">-->
-                                <!--<span>50 ms</span>-->
-                                <!--<input class="flc-textfieldSlider-slider fl-slider" type="range" aria-label="Strum Speed Slider">-->
-                                <!--<span>500 ms</span>-->
-                            <!--</div>-->
-                            <!--<div class="column small-3">-->
-                                <!--<input id="strum-controls" class="flc-textfieldSlider-field fl-textfieldSlider-textField" type="text" aria-label="Strum Speed Text Input">-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
                 <div class="row">
                     <div class="column medium-5 small-10">
                         <div id="input-selector"></div>
@@ -113,6 +102,41 @@
                     <div class="column medium-6 small-12">
                         <div id="output-selector"></div>
                     </div>
+                </div>
+
+                <div class="cell small-6 medium-6">
+                    <h3>Octave (Onscreen Notes):</h3>
+                    <div class="grid-x octave-slider ">
+                        <div class="cell small-9">
+                            <div class="fl-textfieldSlider fl-focus">
+                                <span>0</span>
+                                <input class="flc-textfieldSlider-slider fl-slider" type="range" aria-label="Octave Slider">
+                                <span>7</span>
+                            </div>
+                        </div>
+                        <div class="cell small-2 small-offset-1">
+                            <input id="octave-controls" class="flc-textfieldSlider-field fl-textfieldSlider-textField" type="text" aria-label="Octave Text Input">
+                        </div>
+                    </div>
+                </div>
+                <div class="cell small-6 medium-6">
+                    <h3>Strum Length:</h3>
+                    <div class="grid-x strum-length-slider">
+                        <div class="cell small-9">
+                            <div class="fl-textfieldSlider fl-focus">
+                                <span>25 ms</span>
+                                <input class="flc-textfieldSlider-slider fl-slider" type="range" aria-label="Strum Length Slider">
+                                <span>5000 ms</span>
+                            </div>
+                        </div>
+                        <div class="cell small-2 small-offset-1">
+                            <input id="strum-length-controls" class="flc-textfieldSlider-field fl-textfieldSlider-textField" type="text" aria-label="Strum Length Text Input">
+                        </div>
+                    </div>
+                </div>
+                <div class="cell small-6 medium-6">
+                    <h3>Strum Pattern:</h3>
+                    <div class="strum-pattern-controls"></div>
                 </div>
             </div>
         </div>

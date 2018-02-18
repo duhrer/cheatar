@@ -150,7 +150,6 @@
             chordScale:    "major",
             playingChord:  "-",
             strumDuration: 100,
-            noteMs:        500,
             arpeggiation:  true
         },
         members: {

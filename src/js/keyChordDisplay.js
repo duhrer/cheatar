@@ -35,8 +35,6 @@
             that.applier.change("changingKeys", false);
         }
         else {
-            //$(keyElement).addClass("active");
-
             that.applier.change(["playingNotes", key], true);
         }
     };
@@ -52,25 +50,6 @@
                 $(singleChordElement).removeClass("active");
             }
         });
-        // <a key="C" type="major" class="chord inKey active" align="center" href="#"><h4>C</h4><h5>major</h5></a>
-    };
-
-    // // TODO: exercise this and write up a feature request against gpii-handlebars.
-    // cheatar.keyChordDisplay.redrawPreservingFocus = function (that) {
-    //     var focusElement = that.locate("hasFocus");
-    //     var focusKey = focusElement.length && focusElement.getAttribute("key");
-    //
-    //     that.renderMarkup("viewport", "main", that.model.keyChords, "html"); //  selector, template, data, manipulator
-    //
-    //     if (focusKey) {
-    //         $(".chord[key='" + focusKey + "']").focus();
-    //     }
-    // };
-
-    cheatar.keyChordDisplay.handleKeyChangeButton = function (that) {
-        var buttonElement = that.locate("keyChange");
-        buttonElement.toggleClass("alert");
-        that.applier.change("changingKeys", that.model.changingKeys ? false : true);
     };
 
     fluid.defaults("cheatar.keyChordDisplay", {
@@ -82,24 +61,18 @@
             chordKey:     "C"
         },
         selectors: {
-            // hasFocus: ".focus",
             viewport:  "",
-            keys:      ".chord",
-            keyChange: ".key-change-button"
+            keys:      ".chord"
         },
         templates: {
             layouts: {
                 main: "{{body}}"
             },
             pages: {
-                "main": "<div class=\"grid-x\">\n{{#each .}}<div class='cell small-4'><a key='{{@key}}' type='{{type}}' class='chord{{#equals inKey 1}} inKey{{/equals}}{{#equals isKeyItself 1}} isKeyItself{{/equals}}' align='center' href='#'><h4>{{@key}}</h4><h5>{{type}}</h5></a></div>{{/each}}<div class='cell medium-3'><button class=\"key-change-button button\">Change Key</button></div></div>"
+                "main": "<div class=\"grid-x grid-padding-x grid-margin-x\">\n{{#each .}}<div class='cell small-4'><a key='{{@key}}' type='{{type}}' class='chord{{#equals inKey 1}} inKey{{/equals}}{{#equals isKeyItself 1}} isKeyItself{{/equals}}' align='center' href='#'><h4>{{@key}}</h4><h5>{{type}}</h5></a></div>{{/each}}</div>"
             }
         },
         invokers: {
-            // renderInitialMarkup: {
-            //     funcName: "cheatar.keyChordDisplay.redrawPreservingFocus",
-            //     args:     ["{that}"]
-            // },
             renderInitialMarkup: {
                 func: "{that}.renderMarkup",
                 args: [
@@ -136,16 +109,7 @@
             keyOn: {
                 funcName: "cheatar.keyChordDisplay.keyOn",
                 args: ["{that}", "{arguments}.0"] // event
-            },
-            handleKeyChangeButtonKeyDown: {
-                func: "{that}.filterKeys",
-                args: ["{arguments}.0", "{that}.handleKeyChangeButton"] // event, gatedFn
-            },
-            handleKeyChangeButton: {
-                funcName: "cheatar.keyChordDisplay.handleKeyChangeButton",
-                args:     ["{that}"]
             }
-
         },
         modelListeners: {
             keyChords: {
@@ -176,16 +140,6 @@
                 "this": "{that}.dom.keys",
                 method: "on",
                 args:   ["keyup", "{that}.handleKeyUp"]
-            },
-            "onMarkupRendered.wireKeyChangeMouseDown": {
-                "this": "{that}.dom.keyChange",
-                method: "on",
-                args:   ["mousedown touchstart", "{that}.handleKeyChangeButton"]
-            },
-            "onMarkupRendered.wireKeyChangeKeyDown": {
-                "this": "{that}.dom.keyChange",
-                method: "on",
-                args:   ["keydown", "{that}.handleKeyDown", "{that}.handleKeyChangeButton"]
             }
         }
     });
