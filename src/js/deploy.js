@@ -1,4 +1,5 @@
 // TODO: Discuss reconciling this with the docpad and fluid-sandbox approaches and generalising for reuse.
+/* eslint-env node */
 "use strict";
 var fluid = require("infusion");
 fluid.setLogging(true);

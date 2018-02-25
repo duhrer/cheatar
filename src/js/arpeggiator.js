@@ -7,11 +7,13 @@
 
     fluid.registerNamespace("cheatar.arpeggiator");
     cheatar.arpeggiator.playChord  = function (that, destination, payload) {
+        cheatar.arpeggiator.clearAllTimeouts(that);
+
         var midiNote     = cheatar.arpeggiator.midiNoteToKey(payload.note);
         var modifier     = "none";
 
         if (that.model.chordScale !== "none") {
-            var fullChordName = that.model.chordKey + modifier;
+            var fullChordName = that.model.chordKey + that.model.chordScale;
             modifier = fluid.get(that.options.chordKeyModifiers, [fullChordName, midiNote]) || that.model.chordScale;
         }
 
@@ -23,29 +25,28 @@
         // Adjust the strum duration so that harder strums are played more quickly.  The hardest note is played 50%
         // faster, the softest is played 50% slower.
         var velocityAdjust = ((63.5 - payload.velocity) / 127) * that.model.strumDuration;
-        var msBetweenStrings = (that.model.strumDuration + velocityAdjust) / chordPattern.length;
-        fluid.each(chordPattern, function (chordOffset, index) {
-            var delayMs = index * msBetweenStrings;
-            var singleNoteNoteOn = fluid.copy(payload);
-
-            singleNoteNoteOn.note += chordOffset;
-
-            var singleNoteNoteOff = fluid.filterKeys(singleNoteNoteOn, ["channel", "note"]);
-            singleNoteNoteOff.type = "noteOff";
-            singleNoteNoteOff.velocity = 0;
-
-            if (that.activeTimeouts[index]) {
-                clearTimeout(that.activeTimeouts[index]);
-                that.activeTimeouts[index] = undefined;
-            }
-
-            that.activeTimeouts[index] = setTimeout(function () {
-                destination.send(singleNoteNoteOn);
-            }, delayMs);
+        var msBetweenStrings = (that.model.strumDuration + velocityAdjust) / (chordPattern.length + 1);
+        fluid.each(chordPattern, function (chordOffset, stringIndex) {
+            var delayMs = stringIndex * msBetweenStrings;
+            that.activeTimeouts[stringIndex] = setTimeout(cheatar.arpeggiator.playSingleString, delayMs, that, stringIndex, payload, chordOffset, destination);
         });
     };
 
-    cheatar.arpeggiator.sendNoteOn = function (that, destination, payload) {
+    cheatar.arpeggiator.playSingleString = function (that, stringIndex, originalPayload, chordOffset, destination) {
+        var singleNoteNoteOn = fluid.copy(originalPayload);
+
+        // If this string is already playing, turn it off.
+        if (that.stringNotes[stringIndex]) {
+            destination.send({ type: "noteOff", velocity: 0, note: that.stringNotes[stringIndex]});
+        }
+
+        singleNoteNoteOn.note += chordOffset;
+
+        that.stringNotes[stringIndex] = singleNoteNoteOn.note;
+        destination.send(singleNoteNoteOn);
+    };
+
+    cheatar.arpeggiator.handleNoteOn = function (that, destination, payload) {
         // Change the key to the played note.
         if (that.model.changingKeys) {
             var midiNote     = cheatar.arpeggiator.midiNoteToKey(payload.note);
@@ -62,26 +63,30 @@
         }
     };
 
-    cheatar.arpeggiator.sendNoteOff = function (that, destination, payload) {
-        // TODO: Standardise and sanitise this.
+    cheatar.arpeggiator.clearAllTimeouts = function (that) {
+        fluid.each(that.activeTimeouts, function (timeout) {
+            if (timeout) {
+                clearTimeout(timeout);
+            }
+        });
+        that.activeTimeouts = [];
+    };
+
+    cheatar.arpeggiator.handleNoteOff = function (that, destination, payload) {
         var midiNote     = cheatar.arpeggiator.midiNoteToKey(payload.note);
-        var modifier     = "none";
 
         that.applier.change(["playingNotes", midiNote], false);
 
-        if (that.model.chordScale !== "none") {
-            var fullChordName = that.model.chordKey + modifier;
-            modifier = fluid.get(that.options.chordKeyModifiers, [fullChordName, midiNote]) || that.model.chordScale;
-        }
-
-        var chordPattern = that.options.chords[modifier];
         that.applier.change("playingChord", false);
 
-        fluid.each(chordPattern, function (chordOffset) {
-            var singleNoteOff = fluid.copy(payload);
-            singleNoteOff.note += chordOffset;
-            destination.send(singleNoteOff);
+        cheatar.arpeggiator.clearAllTimeouts(that);
+
+        fluid.each(that.stringNotes, function (stringNote) {
+            if (stringNote) {
+                destination.send({ type: "noteOff", velocity: 0, note: stringNote});
+            }
         });
+        that.stringNotes = [];
     };
 
     cheatar.arpeggiator.noteNames = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
@@ -133,6 +138,7 @@
 
     // TODO:  Get rid of the "none" pattern in favor of playing notes directly when arpeggiation is disabled.  Also, explicitly clobber any notes playing at the moment when arpeggiation is toggled.
     cheatar.arpeggiator.disableArpeggiation = function (that) {
+        cheatar.arpeggiator.clearAllTimeouts(that);
         if (that.model.arpeggiation) {
             that.applier.change("chordScale", that.lastActiveChordScale);
         }
@@ -154,6 +160,7 @@
         },
         members: {
             activeTimeouts: [],
+            stringNotes: [],
             lastActiveChordScale: "major"
         },
         baseChordMap: {
@@ -208,11 +215,11 @@
         // TODO: Add strum patterns, low to high, high to low, low to high to low.
         invokers: {
             noteOn: {
-                funcName: "cheatar.arpeggiator.sendNoteOn",
+                funcName: "cheatar.arpeggiator.handleNoteOn",
                 args: ["{that}", "{arguments}.0", "{arguments}.1"] // destination, payload
             },
             noteOff: {
-                funcName: "cheatar.arpeggiator.sendNoteOff",
+                funcName: "cheatar.arpeggiator.handleNoteOff",
                 args: ["{that}", "{arguments}.0", "{arguments}.1"] // destination, payload
             }
         },

@@ -20,7 +20,8 @@
             var keyElement = event.currentTarget;
             var key = keyElement.getAttribute("key");
             $(keyElement).removeClass("active");
-            that.applier.change(["playingNotes", key], false);
+            that.applier.change(["playingNotes", key], true);
+            that.applier.change(["playingScreenNotes", key], false);
         }
     };
 
@@ -36,6 +37,7 @@
         }
         else {
             that.applier.change(["playingNotes", key], true);
+            that.applier.change(["playingScreenNotes", key], true);
         }
     };
 
@@ -56,7 +58,7 @@
         gradeNames: ["gpii.handlebars.templateAware.standalone"],
         monitoredKeyCodes: [ 32, 13 ], // space bar, enter
         model: {
-            playingNotes: {},
+            playingScreenNotes: {},
             changingKeys: false,
             chordKey:     "C"
         },

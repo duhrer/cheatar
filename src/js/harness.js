@@ -66,6 +66,7 @@
             octave:        3,
             strumDuration: 150,
             playingNotes:  {},
+            playingScreenNotes: {},
             arpeggiation: "{arpeggiator}.model.arpeggiation"
         },
         selectors: {
@@ -164,11 +165,12 @@
                 container: ".key-chord-display",
                 options: {
                     model: {
-                        playingNotes: "{harness}.model.playingNotes",
-                        keyChords:    "{arpeggiator}.model.keyChords",
-                        chordKey:     "{arpeggiator}.model.chordKey",
-                        chordScale:   "{arpeggiator}.model.chordScale",
-                        changingKeys: "{keyChangeControls}.model.changingKeys"
+                        playingScreenNotes: "{harness}.model.playingScreenNotes",
+                        playingNotes:       "{harness}.model.playingNotes",
+                        keyChords:          "{arpeggiator}.model.keyChords",
+                        chordKey:           "{arpeggiator}.model.chordKey",
+                        chordScale:         "{arpeggiator}.model.chordScale",
+                        changingKeys:       "{keyChangeControls}.model.changingKeys"
                     }
                 }
             },
@@ -260,7 +262,7 @@
             }
         },
         modelListeners: {
-            "playingNotes.*": {
+            "playingScreenNotes.*": {
                 funcName: "cheatar.harness.relayScreenInput",
                 args:     ["{that}", "{change}.path.1", "{change}.value"] // that, key, isOn)
             }
