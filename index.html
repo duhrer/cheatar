@@ -7,16 +7,24 @@
         <title>"Cheatar" Demo</title>
 
         <!-- Infusion dependencies -->
-        <!-- TODO: Talk with Colin about making an infusion-less Flocking bundle -->
         <script src="./node_modules/infusion/dist/infusion-all.js"></script>
+        <script type="text/javascript" src="./node_modules/infusion/src/framework/core/js/MessageResolver.js"></script>
+
+        <!-- "stepper" dependencies -->
+        <script type="text/javascript" src="./node_modules/infusion/src/components/tooltip/js/Tooltip.js"></script>
+        <script type="text/javascript" src="./node_modules/infusion/src/components/textfieldControl/js/TextfieldSlider.js"></script>
 
         <!-- Flocking dependencies -->
         <script src="./node_modules/flocking/dist/flocking-base.js"></script>
-        <script src="./node_modules/flocking/src/ui/selectbox/js/selectbox.js"></script>
 
+        <script src="./node_modules/flocking/src/ui/selectbox/js/selectbox.js"></script>
         <script src="./node_modules/flocking/src/ui/midi/midi-port-selector/js/midi-port-selector.js"></script>
         <script src="./node_modules/flocking/src/ui/midi/midi-connector/js/midi-connector.js"></script>
 
+        <script src="./node_modules/flocking-midi-select-ng/src/js/auto-midi-system.js"></script>
+        <script src="./node_modules/flocking-midi-select-ng/src/js/select-box.js"></script>
+        <script src="./node_modules/flocking-midi-select-ng/src/js/auto-midi-port-selector.js"></script>
+        <script src="./node_modules/flocking-midi-select-ng/src/js/auto-midi-connector.js"></script>
 
         <!-- Handlebars dependency -->
         <script src="./node_modules/handlebars/dist/handlebars.js"></script>
@@ -24,6 +32,8 @@
         <!-- gpii-handlebars dependencies -->
         <script src="./node_modules/markdown-it/dist/markdown-it.js"></script>
         <script src="./node_modules/gpii-handlebars/src/js/client/hasRequiredOptions.js"></script>
+        <script src="./node_modules/gpii-handlebars/src/js/common/messageHelper.js"></script>
+        <script src="./node_modules/gpii-handlebars/src/js/common/renderer.js"></script>
         <script src="./node_modules/gpii-handlebars/src/js/common/helper.js"></script>
         <script src="./node_modules/gpii-handlebars/src/js/common/md-common.js"></script>
         <script src="./node_modules/gpii-handlebars/src/js/client/md-client.js"></script>
@@ -31,10 +41,6 @@
         <script src="./node_modules/gpii-handlebars/src/js/common/equals.js"></script>
         <script src="./node_modules/gpii-handlebars/src/js/client/renderer.js"></script>
         <script src="./node_modules/gpii-handlebars/src/js/client/templateAware.js"></script>
-
-        <!-- "stepper" dependencies -->
-        <script type="text/javascript" src="./node_modules/infusion/src/components/tooltip/js/Tooltip.js"></script>
-        <script type="text/javascript" src="./node_modules/infusion/src/components/textfieldControl/js/TextfieldSlider.js"></script>
 
         <!-- Binder dependencies -->
         <script src="./node_modules/gpii-binder/src/js/binder.js"></script>

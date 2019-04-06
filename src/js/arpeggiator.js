@@ -37,9 +37,10 @@
 
         // If this string is already playing, turn it off.
         if (that.stringNotes[stringIndex]) {
-            destination.send({ type: "noteOff", velocity: 0, note: that.stringNotes[stringIndex]});
+            destination.send({ channel: 0, type: "noteOff", velocity: 0, note: that.stringNotes[stringIndex]});
         }
 
+        singleNoteNoteOn.channel = 0;
         singleNoteNoteOn.note += chordOffset;
 
         that.stringNotes[stringIndex] = singleNoteNoteOn.note;
@@ -83,7 +84,7 @@
 
         fluid.each(that.stringNotes, function (stringNote) {
             if (stringNote) {
-                destination.send({ type: "noteOff", velocity: 0, note: stringNote});
+                destination.send({ channel: 0, type: "noteOff", velocity: 0, note: stringNote});
             }
         });
         that.stringNotes = [];

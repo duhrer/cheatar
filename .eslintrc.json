@@ -1,6 +1,6 @@
 {
-  "extends": "eslint-config-fluid",
-  "env":     {
-    "browser": true
-  }
+    "extends": "eslint-config-fluid",
+    "env": {
+        "browser": true
+    }
 }

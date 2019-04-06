@@ -29,7 +29,7 @@
     };
 
     fluid.defaults("cheatar.keyChangeButton", {
-        gradeNames: ["fluid.viewComponent"],
+        gradeNames: ["fluid.modelComponent", "fluid.viewComponent"],
         monitoredKeyCodes: [ 32, 13 ], // space bar, enter
         model: {
             changingKeys: false

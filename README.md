@@ -3,7 +3,6 @@
 This project is an arpeggiating router built with [Flocking](http://flockingjs.org/).  When a note is played using the
 web interface or a connected MIDI input, a 4-string guitar chord is transmitted to the selected MIDI output.
 
-
 1. Run `npm install` in the root of the repository directory.
 2. Connect a physical or software a synthesizer that is configure to appear as a MIDI output for other devices.
 3. (Optional) Connect a MIDI controller or other MIDI input.

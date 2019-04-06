@@ -8,7 +8,7 @@
 (function (fluid, flock) {
     // TODO: Add appropriate control code listener to enable key change from compatible keyboard.
     "use strict";
-    var environment = flock.init(); // eslint-disable-line no-unused-vars
+    //var environment = flock.init(); // eslint-disable-line no-unused-vars
 
     var cheatar = fluid.registerNamespace("cheatar");
     fluid.registerNamespace("cheatar.harness");
@@ -62,6 +62,8 @@
         gradeNames: ["fluid.viewComponent"],
         pitchbendTarget: "pitchbend.value",
         toggleClass: "hide",
+        preferredInputDevice: "Beatstep (Black) Arturia BeatStep", // TODO: Update to use nanopad
+        preferredOutputDevice: "sforzando", // TODO: Update to whatever instrument we end up using for reals.
         model: {
             octave:        3,
             strumDuration: 150,
@@ -106,16 +108,16 @@
                 type: "cheatar.arpeggiator",
                 options: {
                     model: {
-                        changingKeys: "{keyChordDisplay}.model.changingKeys",
-                        playingNotes: "{keyChordDisplay}.model.playingNotes"
+                        //changingKeys: "{keyChordDisplay}.model.changingKeys",
+                        //playingNotes: "{keyChordDisplay}.model.playingNotes"
                     }
                 }
             },
-            // TODO: Save the current settings to a cookie and attempt to use them on startup.
             midiInputSelector: {
-                type: "flock.ui.midiConnector",
+                type: "flock.auto.ui.midiConnector",
                 container: "{that}.dom.midiInputSelector",
                 options: {
+                    preferredDevice: "{harness}.options.preferredInputDevice",
                     portType: "input",
                     strings: {
                         selectBoxLabel: "MIDI Input:"
@@ -136,9 +138,10 @@
                 }
             },
             midiOutputSelector: {
-                type: "flock.ui.midiConnector",
+                type: "flock.auto.ui.midiConnector",
                 container: "{that}.dom.midiOutputSelector",
                 options: {
+                    preferredDevice: "{harness}.options.preferredOutputDevice",
                     portType: "output",
                     strings: {
                         selectBoxLabel: "MIDI Output:"
@@ -219,7 +222,7 @@
                         options: {
                             none:     { label: "none", value: "none"},
                             major:    { label: "major", value: "major"},
-                            minor:    { label: "minor", value: "minor"},
+                            minor:    { label: "minor", value: "minor"}
                             // TODO: Figure out why these don't work.
                             // major7:   { label: "major7", value: "major7"},
                             // minor7:   { label: "minor7", value: "minor7"},
@@ -268,23 +271,20 @@
             }
         },
         listeners: {
-            onCreate: [
-                "{that}.enviro.start()",
-                {
-                    "this": "{that}.dom.optionsToggle",
-                    method: "keydown",
-                    args:   "{that}.filterKeyPress"
-                },
-                {
-                    "this": "{that}.dom.optionsToggle",
-                    method: "click",
-                    args:   "{that}.performToggle"
-                },
-                {
-                    "funcName": "gpii.binder.applyBinding",
-                    "args":     "{that}"
-                }
-            ]
+            "onCreate.bindKeyPress": {
+                "this": "{that}.dom.optionsToggle",
+                method: "keydown",
+                args:   ["{that}.filterKeyPress"]
+            },
+            "onCreate.bindToggle": {
+                "this": "{that}.dom.optionsToggle",
+                method: "click",
+                args:   ["{that}.performToggle"]
+            },
+            "onCreate.applyBinding":  {
+                "funcName": "gpii.binder.applyBinding",
+                "args":     ["{that}"]
+            }
         }
     });
 })(fluid, flock);

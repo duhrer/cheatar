@@ -1,32 +1,32 @@
 {
-  "name": "cheatar",
-  "version": "1.0.0",
-  "description": "A software synthesizer that emulates playing chords on a stringed instrument.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://duhrer@bitbucket.org/duhrer/cheatar.git"
-  },
-  "author": "Tony Atkins <tony@raisingthefloor.org>",
-  "license": "BSD-3-Clause",
-  "homepage": "https://bitbucket.org/duhrer/cheatar#readme",
-  "dependencies": {
-    "flocking": "git://github.com/the-t-in-rtf/Flocking.git#b35335a3a22371264d849b3c711769416aa5b366",
-    "flocking-midi-router": "git://github.com/the-t-in-rtf/flocking-midi-router#618f2e8ae21cbbf146cb16cd94ba94f659a59692",
-    "foundation-sites": "6.4.3",
-    "gpii-binder": "1.0.4-dev.20180126T160723Z.eb74939",
     "gpii-handlebars": "1.1.1-dev.20180127T055113Z.4cc0cbe",
-    "infusion": "3.0.0-dev.20180122T170655Z.350441a9b"
-  },
-  "devDependencies": {
-    "eslint": "4.12.0",
-    "eslint-config-fluid": "1.2.0",
-    "fluid-grunt-eslint": "18.1.2",
-    "grunt": "1.0.1",
-    "grunt-jsonlint": "1.1.0",
-    "recursive-copy": "2.0.6"
-  }
+    "name": "cheatar",
+    "version": "1.0.0",
+    "description": "A software synthesizer that emulates playing chords on a stringed instrument.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://duhrer@bitbucket.org/duhrer/cheatar.git"
+    },
+    "author": "Tony Atkins <tony@raisingthefloor.org>",
+    "license": "BSD-3-Clause",
+    "homepage": "https://bitbucket.org/duhrer/cheatar#readme",
+    "dependencies": {
+        "flocking": "2.0.0-dev.20190101T211732Z.efbf6e2",
+        "flocking-midi-select-ng": "1.0.0-dev.20190219T121520Z.893914c",
+        "foundation-sites": "6.4.3",
+        "gpii-binder": "1.0.5",
+        "gpii-handlebars": "1.1.1"
+    },
+    "devDependencies": {
+        "eslint": "5.16.0",
+        "eslint-config-fluid": "1.3.0",
+        "fluid-grunt-eslint": "18.1.2",
+        "gpii-grunt-lint-all": "1.0.5",
+        "grunt": "1.0.4",
+        "recursive-copy": "2.0.10"
+    }
 }
