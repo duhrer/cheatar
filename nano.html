@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>"Nano Cheatar" Demo</title>
+
+        <!-- Infusion dependencies -->
+        <script src="./node_modules/infusion/dist/infusion-all.js"></script>
+        <script type="text/javascript" src="./node_modules/infusion/src/framework/core/js/MessageResolver.js"></script>
+
+        <!-- "stepper" dependencies -->
+        <script type="text/javascript" src="./node_modules/infusion/src/components/tooltip/js/Tooltip.js"></script>
+        <script type="text/javascript" src="./node_modules/infusion/src/components/textfieldControl/js/TextfieldSlider.js"></script>
+
+        <!-- Flocking dependencies -->
+        <script src="./node_modules/flocking/dist/flocking-base.js"></script>
+
+        <script src="./node_modules/flocking/src/ui/selectbox/js/selectbox.js"></script>
+        <script src="./node_modules/flocking/src/ui/midi/midi-port-selector/js/midi-port-selector.js"></script>
+        <script src="./node_modules/flocking/src/ui/midi/midi-connector/js/midi-connector.js"></script>
+
+        <script src="./node_modules/flocking-midi-select-ng/src/js/auto-midi-system.js"></script>
+        <script src="./node_modules/flocking-midi-select-ng/src/js/select-box.js"></script>
+        <script src="./node_modules/flocking-midi-select-ng/src/js/auto-midi-port-selector.js"></script>
+        <script src="./node_modules/flocking-midi-select-ng/src/js/auto-midi-connector.js"></script>
+
+        <!-- Handlebars dependency -->
+        <script src="./node_modules/handlebars/dist/handlebars.js"></script>
+
+        <!-- gpii-handlebars dependencies -->
+        <script src="./node_modules/markdown-it/dist/markdown-it.js"></script>
+        <script src="./node_modules/gpii-handlebars/src/js/client/hasRequiredOptions.js"></script>
+        <script src="./node_modules/gpii-handlebars/src/js/common/messageHelper.js"></script>
+        <script src="./node_modules/gpii-handlebars/src/js/common/renderer.js"></script>
+        <script src="./node_modules/gpii-handlebars/src/js/common/helper.js"></script>
+        <script src="./node_modules/gpii-handlebars/src/js/common/md-common.js"></script>
+        <script src="./node_modules/gpii-handlebars/src/js/client/md-client.js"></script>
+        <script src="./node_modules/gpii-handlebars/src/js/common/jsonify.js"></script>
+        <script src="./node_modules/gpii-handlebars/src/js/common/equals.js"></script>
+        <script src="./node_modules/gpii-handlebars/src/js/client/renderer.js"></script>
+        <script src="./node_modules/gpii-handlebars/src/js/client/templateAware.js"></script>
+
+        <!-- Binder dependencies -->
+        <script src="./node_modules/gpii-binder/src/js/binder.js"></script>
+        <script src="./node_modules/gpii-binder/src/js/transforms.js"></script>
+
+        <!-- UI components -->
+        <script src="./src/js/select.js"></script>
+
+        <script src="./src/js/jv.js"></script>
+        <script src="./src/js/nano-chords.js"></script>
+        <script src="./src/js/nano.js"></script>
+
+        <link rel="stylesheet" href="./node_modules/foundation-sites/dist/css/foundation.css"/>
+        <link rel="stylesheet" href="./src/css/nano.css"/>
+
+    </head>
+
+    <body>
+        <div class="nano-container">
+            <div class="nano-oda grid-container">
+                <div class="grid-y medium-grid-frame">
+                    <div class="cell medium-6 med">
+                        <div class="grid-x">
+                            <div class="cell medium-8">
+                                <div class="grid-x">
+                                    <div class="nano-pad cell medium-2" id="nano-pad-B">
+                                        <div class="chord-note">B</div>
+                                        <div class="chord-variation">min</div>
+                                    </div>
+                                    <div class="nano-pad cell medium-2 out-of-key" id="nano-pad-A#">
+                                        <div class="chord-note">A#</div>
+                                        <div class="chord-variation">-</div>
+                                    </div>
+                                    <div class="nano-pad cell medium-2" id="nano-pad-A">
+                                        <div class="chord-note">A</div>
+                                        <div class="chord-variation">min</div>
+                                    </div>
+                                    <div class="nano-pad cell medium-2 out-of-key" id="nano-pad-G#">
+                                        <div class="chord-note">G#</div>
+                                        <div class="chord-variation">-</div>
+                                    </div>
+                                    <div class="nano-pad cell medium-2 selected-key selected-chord" id="nano-pad-G">
+                                        <div class="chord-note">G</div>
+                                        <div class="chord-variation">maj</div>
+                                    </div>
+                                    <div class="nano-pad cell medium-2" id="nano-pad-F#">
+                                        <div class="chord-note">F#</div>
+                                        <div class="chord-variation">dim</div>
+                                    </div>
+                                    <div class="nano-pad cell medium-2 out-of-key" id="nano-pad-F">
+                                        <div class="chord-note">F</div>
+                                        <div class="chord-variation">-</div>
+                                    </div>
+                                    <div class="nano-pad cell medium-2" id="nano-pad-E">
+                                        <div class="chord-note">E</div>
+                                        <div class="chord-variation">min</div>
+                                    </div>
+                                    <div class="nano-pad cell medium-2 out-of-key" id="nano-pad-D#">
+                                        <div class="chord-note">D#</div>
+                                        <div class="chord-variation">-</div>
+                                    </div>
+                                    <div class="nano-pad cell medium-2" id="nano-pad-D">
+                                        <div class="chord-note">D</div>
+                                        <div class="chord-variation">maj</div>
+                                    </div>
+                                    <div class="nano-pad cell medium-2 out-of-key" id="nano-pad-C#">
+                                        <div class="chord-note">C#</div>
+                                        <div class="chord-variation">-</div>
+                                    </div>
+                                    <div class="nano-pad cell medium-2" id="nano-pad-C">
+                                        <div class="chord-note">C</div>
+                                        <div class="chord-variation">maj</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nano-xy-pad cell medium-3 medium-offset-1">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cell medium-4 medium-offset-2">
+                        <div id="input-selector"></div>
+                        <div id="output-selector"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <script>
+            var nanoComponent = cheatar.nano(".nano-container");
+        </script>
+    </body>
+</html>
