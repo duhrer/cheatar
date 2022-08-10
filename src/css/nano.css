@@ -1,0 +1,25 @@
+.out-of-key {
+    color: #cccccc;
+}
+
+.selected-chord {
+    color: #ff0000
+}
+
+.selected-key {
+    border-radius: 15%;
+    border: 1px solid #009900;
+    font-weight: bold;
+}
+
+.nano-pad {
+    padding: 2em;
+}
+
+.nano-xy-pad {
+    border: 1px solid black;
+}
+
+.nano-container {
+    margin-top: 5em;
+}
