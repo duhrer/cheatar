@@ -5,6 +5,7 @@
     "description": "A software synthesizer that emulates playing chords on a stringed instrument.",
     "main": "index.js",
     "scripts": {
+        "postinstall": "node src/js/generate-namespaced-svg-js-files.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
@@ -16,8 +17,9 @@
     "homepage": "https://bitbucket.org/duhrer/cheatar#readme",
     "dependencies": {
         "flocking": "2.0.0-dev.20190101T211732Z.efbf6e2",
+        "flocking-midi-interchange": "1.0.0-dev.20190818T140428Z.18b8d2a",
         "flocking-midi-select-ng": "1.0.0-dev.20190219T121520Z.893914c",
-        "foundation-sites": "6.4.3",
+        "foundation-sites": "6.5.3",
         "gpii-binder": "1.0.5",
         "gpii-handlebars": "1.1.1"
     },
