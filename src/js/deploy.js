@@ -9,12 +9,45 @@ var cheatar = fluid.registerNamespace("cheatar");
 var path = require("path");
 
 var copy = require("recursive-copy");
+var fs = require("fs");
+var mkdirp = require("mkdirp");
+var rimraf = require("rimraf");
 
 fluid.registerNamespace("cheatar.generator");
 
 cheatar.generator.makeBundle = function (that) {
     var resolvedBasePath = fluid.module.resolvePath(that.options.baseDir);
     var promises = [];
+
+    if (fs.existsSync(that.options.targetDir)) {
+        promises.push(function () {
+            var existingDirCleanPromise = fluid.promise();
+            rimraf(that.options.targetDir, function (error) {
+                if (error) {
+                    existingDirCleanPromise.reject(error);
+                }
+                else {
+                    existingDirCleanPromise.resolve();
+                }
+            });
+
+            return existingDirCleanPromise;
+        });
+    }
+
+    promises.push(function () {
+        var dirCreationPromise = fluid.promise();
+        mkdirp(that.options.targetDir, function (error) {
+            if (error) {
+                dirCreationPromise.reject(error);
+            }
+            else {
+                dirCreationPromise.resolve();
+            }
+        });
+        return dirCreationPromise;
+    });
+
     fluid.each(fluid.makeArray(that.options.bundle), function (singleItemPath) {
         var itemSrcPath = path.resolve(resolvedBasePath, singleItemPath);
         var itemDestPath = path.resolve(that.options.targetDir, singleItemPath);
@@ -38,42 +71,39 @@ cheatar.generator.makeBundle = function (that) {
 fluid.defaults("cheatar.generator", {
     gradeNames: ["fluid.component"],
     baseDir: "%cheatar",
-    targetDir: "/tmp/bundle",
+    targetDir: "/Users/duhrer/Source/projects/duhrer.github.io/demos/cheatar",
     bundle: [
         "./index.html",
-        "./node_modules/infusion/dist/infusion-all.js",
-        "./node_modules/infusion/dist/infusion-all.js.map",
-        "./node_modules/infusion/src/components/tooltip/js/Tooltip.js",
-        "./node_modules/infusion/src/components/textfieldControl/js/TextfieldSlider.js",
-        "./node_modules/handlebars/dist/handlebars.js",
-        "./node_modules/markdown-it/dist/markdown-it.js",
-        "./node_modules/gpii-handlebars/src/js/client/hasRequiredOptions.js",
-        "./node_modules/gpii-handlebars/src/js/common/helper.js",
-        "./node_modules/gpii-handlebars/src/js/common/md-common.js",
-        "./node_modules/gpii-handlebars/src/js/client/md-client.js",
-        "./node_modules/gpii-handlebars/src/js/common/jsonify.js",
-        "./node_modules/gpii-handlebars/src/js/common/equals.js",
-        "./node_modules/gpii-handlebars/src/js/common/messageHelper.js",
-        "./node_modules/gpii-handlebars/src/js/common/renderer.js",
-        "./node_modules/gpii-handlebars/src/js/client/renderer.js",
-        "./node_modules/gpii-handlebars/src/js/client/templateAware.js",
-        "./node_modules/gpii-binder/src/js/binder.js",
-        "./node_modules/gpii-binder/src/js/transforms.js",
-        "./node_modules/flocking/dist/flocking-base.js",
-        "./node_modules/flocking/src/ui/selectbox/js/selectbox.js",
-        "./node_modules/flocking/src/ui/midi/midi-port-selector/js/midi-port-selector.js",
-        "./node_modules/flocking/src/ui/midi/midi-connector/js/midi-connector.js",
+        "./nano.html",
+        "./node_modules/foundation-sites/dist/css/foundation.css",
+        "./node_modules/flocking-midi-select-ng/src/js/auto-midi-connector.js",
+        "./node_modules/flocking-midi-select-ng/src/js/auto-midi-port-selector.js",
         "./node_modules/flocking-midi-select-ng/src/js/auto-midi-system.js",
         "./node_modules/flocking-midi-select-ng/src/js/select-box.js",
-        "./node_modules/flocking-midi-select-ng/src/js/auto-midi-port-selector.js",
-        "./node_modules/flocking-midi-select-ng/src/js/auto-midi-connector.js",
-        "./src/js/select.js",
-        "./src/js/keychords.js",
-        "./src/js/keyChordDisplay.js",
-        "./src/js/arpeggiator.js",
-        "./src/js/harness.js",
-        "./node_modules/foundation-sites/dist/css/foundation.css",
-        "./src/css/cheatar.css"
+        "./node_modules/flocking/dist/flocking-base.js",
+        "./node_modules/flocking/src/ui/midi/midi-connector/js/midi-connector.js",
+        "./node_modules/flocking/src/ui/midi/midi-port-selector/js/midi-port-selector.js",
+        "./node_modules/flocking/src/ui/selectbox/js/selectbox.js",
+        "./node_modules/gpii-binder/src/js/binder.js",
+        "./node_modules/gpii-binder/src/js/transforms.js",
+        "./node_modules/gpii-handlebars/src/js/client/hasRequiredOptions.js",
+        "./node_modules/gpii-handlebars/src/js/client/md-client.js",
+        "./node_modules/gpii-handlebars/src/js/client/renderer.js",
+        "./node_modules/gpii-handlebars/src/js/client/templateAware.js",
+        "./node_modules/gpii-handlebars/src/js/common/equals.js",
+        "./node_modules/gpii-handlebars/src/js/common/helper.js",
+        "./node_modules/gpii-handlebars/src/js/common/jsonify.js",
+        "./node_modules/gpii-handlebars/src/js/common/md-common.js",
+        "./node_modules/gpii-handlebars/src/js/common/messageHelper.js",
+        "./node_modules/gpii-handlebars/src/js/common/renderer.js",
+        "./node_modules/handlebars/dist/handlebars.js",
+        "./node_modules/infusion/dist/infusion-all.js",
+        "./node_modules/infusion/dist/infusion-all.js.map",
+        "./node_modules/markdown-it/dist/markdown-it.js",
+        "./node_modules/infusion/src/components/textfieldControl/js/TextfieldSlider.js",
+        "./node_modules/infusion/src/components/tooltip/js/Tooltip.js",
+        "./node_modules/infusion/src/framework/core/js/MessageResolver.js",
+        "./src"
     ],
     listeners: {
         "onCreate.createBundle": {
